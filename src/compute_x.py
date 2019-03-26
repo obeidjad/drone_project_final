@@ -7,14 +7,13 @@ import numpy as np
 import rospy
 from nav_msgs.msg import Odometry
 import sys
-from geometry_msgs.msg import Twist
 from projectTools import DroneCommand
 from std_msgs.msg import Float32
 
 class XCommand:
     def __init__(self):
         self.odom_subscriber = rospy.Subscriber("/bebop/odom",Odometry,self.read_val)
-        dc = DroneCommand(0.7,0.03,0.6)
+        self.dc = DroneCommand(0.7,0.03,0.6)
         self.cmd_publisher = rospy.Publisher("/vel_x",Float32, queue_size=1)
         self.linearX = 0
         self.targX = 0
@@ -22,7 +21,7 @@ class XCommand:
     def read_data(self,ros_data):
         twist = ros_data.twist.twist
         self.linearX = twist.linear.x
-        self.cmd = dc.computeCommand(self.linearX,self.targX)
+        self.cmd = self.dc.computeCommand(self.linearX,self.targX)
         self.cmd_publisher.publish(self.cmd)
 
 def main(args):

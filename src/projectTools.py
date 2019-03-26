@@ -18,3 +18,15 @@ class DroneCommand:
             Derr = 0
         self.cmd = self._P*err + self.TotErr*self._I + self._D*Derr
         return self.cmd
+class GenTools:
+    def __init__(self):
+        pass
+    @staticmethod
+    def setMax(self,val,vmax):
+        vmax = abs(vmax)
+        if(val > vmax):
+            return vmax
+        elif(val <  -vmax):
+            return -vmax
+        else:
+            return val
