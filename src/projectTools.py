@@ -22,7 +22,7 @@ class GenTools:
     def __init__(self):
         pass
     @staticmethod
-    def setMax(self,val,vmax):
+    def setMax(val,vmax):
         vmax = abs(vmax)
         if(val > vmax):
             return vmax
