@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
 This node will be responsible of stabilizing the drone on a given velocity
+This velocity is computed based on the data collected form odom sensor
 It subscribes to the odom topic and published the command to the /vel_x topic
 """
 import numpy as np

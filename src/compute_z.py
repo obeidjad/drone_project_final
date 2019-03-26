@@ -1,5 +1,9 @@
 #!/usr/bin/env python
-
+"""
+This node will be responsible of stabilizing the drone on the Z Axis
+This velocity is computed based on the data collected from camera in a way to keep the centroid in the middle
+It subscribes to the /centroids topic and published the command to the /vel_z topic
+"""
 import numpy as np
 import rospy
 import sys
@@ -11,9 +15,10 @@ class ZCommand:
         self.cent_subscriber = rospy.Subscriber("/centroids",Float32,self.read_val)
         self.dc = DroneCommand(0.007,0,0)
         self.cmd_publisher = rospy.Publisher("/vel_z",Float32, queue_size=1)
+        self.targZ = 160
     def read_val(self,ros_data):
-        centr = ros_data
-        zcmd = self.dc.computeCommad(centr,160)
+        centr = ros_data.data
+        zcmd = self.dc.computeCommad(centr,targZ)
         zcmd = GenTools.setMax(zcmd,0.3)
         self.cmd_publisher.publish(zcmd)
 
