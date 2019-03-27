@@ -1,0 +1,5 @@
+<launch>
+<node pkg="drone_project" name="computeXxommand" type="compute_x.py"></node>
+<node pkg="drone_project" name="sendCommand" type="send_cmd.py">
+</node>
+</launch>

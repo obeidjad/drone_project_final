@@ -8,7 +8,7 @@ class DroneCommand:
         self.oldErr = 0
         self.cmd = 0
         self.MAX_CMD = 10
-    def computeCommad(self,currentVal,targetVal):
+    def computeCommand(self,currentVal,targetVal):
         err = targetVal - currentVal
         if(abs(self.cmd) < self.MAX_CMD):
             self.TotErr = self.TotErr + err

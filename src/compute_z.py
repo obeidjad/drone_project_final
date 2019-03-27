@@ -18,7 +18,7 @@ class ZCommand:
         self.targZ = 160
     def read_val(self,ros_data):
         centr = ros_data.data
-        zcmd = self.dc.computeCommad(centr,targZ)
+        zcmd = self.dc.computeCommand(centr,targZ)
         zcmd = GenTools.setMax(zcmd,0.3)
         self.cmd_publisher.publish(zcmd)
 

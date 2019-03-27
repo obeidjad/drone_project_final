@@ -25,10 +25,11 @@ class YCommand:
     def read_val_odom(self,ros_data):
         #In this Topic here we need to send the command to the drone
         #We need to compute the command first in this method
-        self.linearY = ros_data.data
+        twist = ros_data.twist.twist
+        self.linearY = twist.linear.y
         self.targY = -0.1*self.localsDiffs
         self.targY = GenTools.setMax(self.targY,0.3)
-        ycmd = self.dc.computeCommad(self.linearY,self.targY)
+        ycmd = self.dc.computeCommand(self.linearY,self.targY)
         self.cmd_publisher.publish(ycmd)
 
     def read_val_sDiff(self,ros_data):

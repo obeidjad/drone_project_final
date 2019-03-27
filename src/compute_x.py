@@ -17,9 +17,9 @@ class XCommand:
         self.dc = DroneCommand(0.7,0.03,0.6)
         self.cmd_publisher = rospy.Publisher("/vel_x",Float32, queue_size=1)
         self.linearX = 0
-        self.targX = 0
+        self.targX = 0.2
 
-    def read_data(self,ros_data):
+    def read_val(self,ros_data):
         twist = ros_data.twist.twist
         self.linearX = twist.linear.x
         self.cmd = self.dc.computeCommand(self.linearX,self.targX)
