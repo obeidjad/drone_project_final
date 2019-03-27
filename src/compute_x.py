@@ -13,12 +13,15 @@ from std_msgs.msg import Float32
 
 class XCommand:
     def __init__(self):
+        self.mode = self.get_mode()
         self.odom_subscriber = rospy.Subscriber("/bebop/odom",Odometry,self.read_val)
+        self.velx_subscriber = rospy.Subscriber("/in_vel_x",Float32,self.read_tar_x)
         self.dc = DroneCommand(0.7,0.03,0.6)
         self.cmd_publisher = rospy.Publisher("/vel_x",Float32, queue_size=1)
         self.linearX = 0
         self.targX = 0.2
-
+    def read_tar_x(self,ros_data):
+        self.linearX = ros_data.data
     def read_val(self,ros_data):
         twist = ros_data.twist.twist
         self.linearX = twist.linear.x

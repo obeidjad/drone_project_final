@@ -12,8 +12,10 @@ import sys
 from projectTools import DroneCommand,GenTools
 from std_msgs.msg import Float32
 
+
 class YCommand:
     def __init__(self):
+        
         self.odom_subscriber = rospy.Subscriber("/bebop/odom",Odometry,self.read_val_odom)
         self.sDiff_subscriber = rospy.Subscriber("/sDiffs",Float32,self.read_val_sDiff)
         self.cmd_publisher = rospy.Publisher("/vel_y",Float32, queue_size=1)
@@ -27,7 +29,7 @@ class YCommand:
         #We need to compute the command first in this method
         twist = ros_data.twist.twist
         self.linearY = twist.linear.y
-        self.targY = -0.1*self.localsDiffs
+        
         self.targY = GenTools.setMax(self.targY,0.3)
         ycmd = self.dc.computeCommand(self.linearY,self.targY)
         self.cmd_publisher.publish(ycmd)
@@ -35,6 +37,7 @@ class YCommand:
     def read_val_sDiff(self,ros_data):
         #This method is just to update a variable that gives us the difference between slopes
         self.localsDiffs = ros_data.data
+        self.targY = -0.1*self.localsDiffs
 def main(args):
     rospy.init_node('computeY', anonymous=True)
     sc = YCommand()

@@ -10,11 +10,11 @@ import sys
 from projectTools import DroneCommand,GenTools
 from std_msgs.msg import Float32
 
-class ZCommand:
+class ZCommand(CommandClass):
     def __init__(self):
+        self.cmd_publisher = rospy.Publisher("/vel_z",Float32, queue_size=1)
         self.cent_subscriber = rospy.Subscriber("/centroids",Float32,self.read_val)
         self.dc = DroneCommand(0.007,0,0)
-        self.cmd_publisher = rospy.Publisher("/vel_z",Float32, queue_size=1)
         self.targZ = 160
     def read_val(self,ros_data):
         centr = ros_data.data
