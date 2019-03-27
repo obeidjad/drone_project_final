@@ -32,14 +32,11 @@ class collectData:
         my_cmd = Twist()
 
         my_cmd.linear.x = self.xcmd
-        #my_cmd.linear.x = 0
-        #my_cmd.linear.y = self.ycmd
-        my_cmd.linear.y = 0
+        my_cmd.linear.y = self.ycmd
         my_cmd.linear.z = 0
         my_cmd.angular.x = 0
         my_cmd.angular.y = 0
-        #my_cmd.angular.z = self.zcmd
-        my_cmd.angular.z = 0
+        my_cmd.angular.z = self.zcmd
         self.cmd_publisher.publish(my_cmd)
 def main(args):
     rospy.init_node('SendCommand', anonymous=True)
