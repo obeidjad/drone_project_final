@@ -11,4 +11,4 @@ class Regulator:
     def __init__(self):
         self.odom_subscriber = rospy.Subscriber("/odom_data",Odometry,self.read_val)
         self.vel_subscriber = rospy.Subscriber("/in_vel",Float32,self.read_tar)
-        
+        print "This is Test branch"
