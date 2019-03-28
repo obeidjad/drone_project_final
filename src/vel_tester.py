@@ -6,7 +6,7 @@ def talker():
     pubvel = rospy.Publisher("/vel_in_x", Float32, queue_size=1)
     rospy.init_node('tester', anonymous=True)
     pubact.publsih(1)
-    rate = rospy.Rate(30) # 10hz
+    rate = rospy.Rate(30) # 30hz
     while not rospy.is_shutdown():
         vel = 0.2
         pubvel.publish(vel)
