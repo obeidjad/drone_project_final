@@ -1,39 +1,25 @@
 #!/usr/bin/env python
 """
-This node will be responsible of stabilizing the drone on a given velocity
-This velocity is computed based on the data collected form odom sensor
-It subscribes to the odom topic and published the command to the /vel_x topic
-The desired velocity will be in the Topic /in_vel_x
+This node will be responsible of stabilizing the drone on a given velocity on the X Axis
+It will get the target velocity from the topic /vel_in and publishes the tilt to /vel_out
 """
 import numpy as np
 import rospy
 from nav_msgs.msg import Odometry
 import sys
-from projectTools import DroneCommand
+from Regulator import RegulatorClass
 from std_msgs.msg import Float32
 
-class XCommand:
+class XCommand(RegulatorClass):
     def __init__(self):
-        self.mode = 0
-        self.mode_subscriber = rospy.Subscriber("/mode",Int32,self.update_mode)
-        self.odom_subscriber = rospy.Subscriber("/bebop/odom",Odometry,self.read_val)
-        self.velx_subscriber = rospy.Subscriber("/in_vel_x",Float32,self.read_tar_x)
-        self.dc = DroneCommand(0.7,0.03,0.6)
-        self.cmd_publisher = rospy.Publisher("/vel_x",Float32, queue_size=1)
-        self.linearX = 0
-        self.targX = 0.2
-    def read_tar_x(self,ros_data):
-        self.linearX = ros_data.data
+        super(XCommand,self).__init__(0.7,0.03,0.6)
     def read_val(self,ros_data):
-        if(self.mode == 0):
-            self.cmd_publisher.publish(0.0)
-            return
+        if(self.activation == 0):
+            return 
         twist = ros_data.twist.twist
-        self.linearX = twist.linear.x
-        self.cmd = self.dc.computeCommand(self.linearX,self.targX)
+        self.currVal = twist.linear.x
+        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
         self.cmd_publisher.publish(self.cmd)
-    def update_mode(self,ros_data):
-        self.mode = ros_data.data
 def main(args):
     rospy.init_node('computeX', anonymous=True)
     sc = XCommand()

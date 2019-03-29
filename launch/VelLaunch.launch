@@ -1,0 +1,22 @@
+<launch>
+<node pkg="drone_project" name="ComputeX" type="compute_x.py">
+    <remap from="/vel_in" to="/vel_in_x"/>
+    <remap from="/vel_out" to="/vel_out_x"/>
+    <remap from="/activation" to="/activation_x"/>
+    <remap from="/odom_data" to="/bebop/odom" />
+</node>
+<node pkg="drone_project" name="ComputeY" type="compute_y.py">
+    <remap from="/vel_in" to="/vel_in_y"/>
+    <remap from="/vel_out" to="/vel_out_y"/>
+    <remap from="/activation" to="/activation_y"/>
+    <remap from="/odom_data" to="/bebop/odom" />
+</node>
+<node pkg="drone_project" name="ComputeZ" type="compute_z.py">
+    <remap from="/vel_in" to="/vel_in_z"/>
+    <remap from="/vel_out" to="/vel_out_z"/>
+    <remap from="/activation" to="/activation_z"/>
+    <remap from="/odom_data" to="/bebop/odom" />
+</node>
+<node pkg="drone_project" name="sendCommand" type="send_cmd.py">
+</node>
+</launch>
