@@ -25,3 +25,6 @@ $ roslaunch drone_project VelLaunch.launch
 ```
 After that activate the function you want to use , For example, if you want to move over x publish Int32 message ```1``` to the ```/activation_x```
 And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
+
+## Navigation in hallways
+Soon ...
