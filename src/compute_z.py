@@ -16,7 +16,7 @@ class ZCommand(RegulatorClass):
     #The Z is not like the others,we need to just publish the data to the out node, we will override the read_tar
     def read_tar(self,ros_data):
         if(self.activation == 0):
-            return 
+            pass
         self.cmd_publisher.publish(ros_data.data)
     def read_val(self,ros_data):
         pass

@@ -21,7 +21,7 @@ class YCommand(RegulatorClass):
         #In this Topic here we need to send the command to the drone
         #We need to compute the command first in this method
         if(self.activation == 0):
-            return 
+            pass
         twist = ros_data.twist.twist
         self.currVal = twist.linear.y
         self.targVal = GenTools.setMax(self.targ,0.3)

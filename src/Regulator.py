@@ -7,7 +7,7 @@ import sys
 from projectTools import DroneCommand
 from std_msgs.msg import Float32,Int32
 
-class RegulatorClass:
+class RegulatorClass(object):
     def __init__(self,P,I,D):
         self.odom_subscriber = rospy.Subscriber("/odom_data",Odometry,self.read_val)
         self.vel_subscriber = rospy.Subscriber("/vel_in",Float32,self.read_tar)

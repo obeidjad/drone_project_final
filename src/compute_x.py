@@ -15,7 +15,7 @@ class XCommand(RegulatorClass):
         super(XCommand,self).__init__(0.7,0.03,0.6)
     def read_val(self,ros_data):
         if(self.activation == 0):
-            return 
+            pass 
         twist = ros_data.twist.twist
         self.currVal = twist.linear.x
         self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
