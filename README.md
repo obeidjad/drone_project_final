@@ -9,10 +9,18 @@ The Second part is built on the first one and it some nodes doing image processi
 ##### NOTE:
 The First part is totaly isolated from the second one and can be used on any Parrot Bebop Drone.
 ## Using The Constant V Command
-To use this feature you need to launch the Vellaunch.launch 
+First Clone this repo in your catkin workspace
+```
+$ git clone https://gitlab.centralesupelec.fr/obeid_jad/dorne_project.git
+```
+Build your workspace
+```
+$ catkin build
+```
+To use this feature you need to launch the VelLaunch.launch 
 
 ```
 $ roslaunch drone_project Vellaunch.launch
 ```
-After that activate the function you want to use , For example, if you want to move over x send 1 to the /activation_x
-And then publish to ```/vel_in_x``` and ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
+After that activate the function you want to use , For example, if you want to move over x send 1 to the ```/activation_x```
+And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
