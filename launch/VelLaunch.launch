@@ -1,4 +1,7 @@
 <launch>
+<node pkg="drone_project" name="imageProc" type="image_proc.py">
+</node>
+
 <node pkg="drone_project" name="ComputeX" type="compute_x.py">
     <remap from="/vel_in" to="/vel_in_x"/>
     <remap from="/vel_out" to="/vel_out_x"/>
@@ -18,5 +21,7 @@
     <remap from="/odom_data" to="/bebop/odom" />
 </node>
 <node pkg="drone_project" name="sendCommand" type="send_cmd.py">
+</node>
+<node pkg="drone_project" name="ComputeTarZ" type="compute_tar_z.py">
 </node>
 </launch>

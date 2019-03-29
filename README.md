@@ -15,4 +15,4 @@ To use this feature you need to launch the Vellaunch.launch
 $ roslaunch drone_project Vellaunch.launch
 ```
 After that activate the function you want to use , For example, if you want to move over x send 1 to the /activation_x
-And then publish to /vel_in_x /vel_in_y and /vel_in_z the velocities you want the drone to move with.
+And then publish to ```/vel_in_x``` and ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.

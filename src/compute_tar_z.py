@@ -16,9 +16,11 @@ class ComputeZTar:
         self.dc = DroneCommand(0.007,0,0)
         self.centroid_subscriber = rospy.Subscriber("/centroids",Float32,self.read_centroid)
         self.cmd_publisher = rospy.Publisher("/vel_in_z",Float32,queue_size=1)
+        self.act_publisher = rospy.Publisher("/activation_z",Int32,queue_size=1)
         self.centroid = 160
         self.TargCentroid = 160
         self.cmd = 0
+        self.act_publisher.publish(1)
     def read_centroid(self,ros_data):
         #read the centroid and send the data
         self.centroid = ros_data.data
