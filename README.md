@@ -4,6 +4,8 @@
 -Testing eliminating the activation and just sending a zero command(which is more stable)
 
 -Testing compatibility between the image processing and sending constant V
+
+-Testing the optical flow
 # Semi-Autonomous Drone Pilot
 
 This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 using image processing (OpenCV) and unsupervised machine learning (Clustering).
@@ -33,5 +35,5 @@ $ roslaunch drone_project VelLaunch.launch
 After that activate the function you want to use , For example, if you want to move over x publish Int32 message ```1``` to the ```/activation_x```
 And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
 
-## Navigation in hallways
+## Indoor navigation
 Soon ...
