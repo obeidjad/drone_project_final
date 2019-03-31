@@ -12,6 +12,7 @@ class RegulatorClass(object):
         self.odom_subscriber = rospy.Subscriber("/odom_data",Odometry,self.read_val)
         self.vel_subscriber = rospy.Subscriber("/vel_in",Float32,self.read_tar)
         self.act_subscriber = rospy.Subscriber("/activation",Int32,self.check_activation)
+        self.cmd_reset = rospy.Subscriber("/reset_cmd",Int32,self.reset_cmd)
         self.dc = DroneCommand(P,I,D)
         self.cmd_publisher = rospy.Publisher("/vel_out",Float32, queue_size=1)
         self.currVal = 0
@@ -23,3 +24,5 @@ class RegulatorClass(object):
         self.activation = ros_data.data
         if self.activation == 0:
             self.cmd_publisher.publish(0.0)
+    def reset_cmd(self,ros_data):
+        self.dc.reset_cmd()

@@ -18,6 +18,10 @@ class DroneCommand:
             Derr = 0
         self.cmd = self._P*err + self.TotErr*self._I + self._D*Derr
         return self.cmd
+    def reset_cmd(self):
+        self.cmd = 0
+        self.oldErr = 0
+        self.TotErr = 0
 class GenTools:
     def __init__(self):
         pass
