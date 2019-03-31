@@ -1,6 +1,8 @@
 # TESTING 
 -Test command reset due to some bugs in Vel
+
 -Testing eliminating the activation and just sending a zero command(which is more stable)
+
 -Testing compatibility between the image processing and sending constant V
 # Semi-Autonomous Drone Pilot
 
