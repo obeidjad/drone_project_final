@@ -22,6 +22,4 @@
 </node>
 <node pkg="drone_project" name="sendCommand" type="send_cmd.py">
 </node>
-<node pkg="drone_project" name="ComputeTarZ" type="compute_tar_z.py">
-</node>
 </launch>

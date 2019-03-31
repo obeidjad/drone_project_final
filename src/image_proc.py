@@ -23,10 +23,11 @@ import datetime
 
 class image_convert:
     def __init__(self):
-        self.pub = rospy.Publisher('/centroids', Float32, queue_size=1)
+        self.pub = rospy.Publisher("/centroids", Float32, queue_size=1)
         self.pubDiff = rospy.Publisher('/sDiffs',Float32,queue_size=1)
         self.pubForBag = rospy.Publisher('/imgForBag/front/compressed', CompressedImage, queue_size=1)
         self.subscriber = rospy.Subscriber("/bebop/image_raw",Image, self.callback)
+        self.subscriber = rospy.Subscriber("/image_in",Image, self.callback)
         self.lsd = cv2.createLineSegmentDetector(0)
         self.real_centr = np.array([160,120])
         self.old_centr = np.array([160,120])
