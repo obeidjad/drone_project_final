@@ -1,3 +1,7 @@
+# TESTING 
+-Test command reset due to some bugs in Vel
+-Testing eliminating the activation and just sending a zero command(which is more stable)
+-Testing compatibility between the image processing and sending constant V
 # Semi-Autonomous Drone Pilot
 
 This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 using image processing (OpenCV) and unsupervised machine learning (Clustering).
