@@ -52,7 +52,7 @@ class EnterDoors:
         p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, self.p0, None, **self.lk_params)
         good_new = p1[st==1]
         good_old = self.p0[st==1]
-        arr = (good_new - good_old)[0,:][0]
+        arr = np.absolute((good_new - good_old)[0,:][0])
         print np.amax(arr)
         for i,(new,old) in enumerate(zip(good_new,good_old)):
             a,b = new.ravel()
