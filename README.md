@@ -5,7 +5,7 @@
 
 -Testing compatibility between the image processing and sending constant V
 
--Testing the optical flow
+-Testing the optical flow(Done, code may need some optimization but it's fine)
 # Semi-Autonomous Drone Pilot
 
 This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 using image processing (OpenCV) and unsupervised machine learning (Clustering).
