@@ -14,12 +14,8 @@ class XCommand(RegulatorClass):
     def __init__(self):
         super(XCommand,self).__init__(0.7,0.03,0.6)
     def read_val(self,ros_data):
-        if(self.activation == 0):
-            return 
         twist = ros_data.twist.twist
         self.currVal = twist.linear.x
-        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
-        self.cmd_publisher.publish(self.cmd)
 def main(args):
     rospy.init_node('computeX', anonymous=True)
     sc = XCommand()

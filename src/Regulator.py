@@ -19,10 +19,16 @@ class RegulatorClass(object):
         self.targVal = 0
         self.activation = 0
     def read_tar(self,ros_data):
+        if(self.activation == 0):
+            return 
         self.targVal = ros_data.data
+        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
+        self.cmd_publisher.publish(self.cmd)
     def check_activation(self,ros_data):
         self.activation = ros_data.data
         if self.activation == 0:
             self.cmd_publisher.publish(0.0)
     def reset_cmd(self,ros_data):
-        self.dc.reset_cmd()
+        self.dc.cmd = 0
+        self.dc.TotErr = 0
+        self.dc.oldErr = 0

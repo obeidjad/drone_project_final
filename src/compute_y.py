@@ -20,13 +20,13 @@ class YCommand(RegulatorClass):
     def read_val(self,ros_data):
         #In this Topic here we need to send the command to the drone
         #We need to compute the command first in this method
-        if(self.activation == 0):
-            return
+        #if(self.activation == 0):
+        #    return
         twist = ros_data.twist.twist
         self.currVal = twist.linear.y
         self.targVal = GenTools.setMax(self.targVal,0.3)
-        ycmd = self.dc.computeCommand(self.currVal,self.targVal)
-        self.cmd_publisher.publish(ycmd)
+        #ycmd = self.dc.computeCommand(self.currVal,self.targVal)
+        #self.cmd_publisher.publish(ycmd)
 
 def main(args):
     rospy.init_node('computeY', anonymous=True)
