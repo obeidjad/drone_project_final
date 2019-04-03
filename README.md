@@ -1,11 +1,7 @@
 # TESTING 
--Test command reset due to some bugs in Vel
-
--Testing eliminating the activation and just sending a zero command(which is more stable)
-
 -Testing compatibility between the image processing and sending constant V
 
--Testing the optical flow(Done, code may need some optimization but it's fine)
+-Testing the optical flow(Done, LK is not good here, replace it with GF)
 # Semi-Autonomous Drone Pilot
 
 This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 using image processing (OpenCV) and unsupervised machine learning (Clustering).
@@ -32,8 +28,15 @@ To use this feature you need to launch the VelLaunch.launch
 ```
 $ roslaunch drone_project VelLaunch.launch
 ```
-After that activate the function you want to use , For example, if you want to move over x publish Int32 message ```1``` to the ```/activation_x```
+First start with sending a reset command to this modules by sending any integer to the topics ```reset_cmd_x```,```reset_cmd_y``` and ```reset_cmd_z```.
+
+After that activate the function you want to use , For example, if you want to move over x publish Int32 message ```1``` to the ```/activation_x```.
+
 And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
+Note that the rate of sending data to the drone is equal to the fastest rate between the 3 ``` /vel_in ``` topics.
+
+### Example:
+The ``` vel_tester.py ``` file is an example on moving with a constant velocity.
 
 ## Indoor navigation
 Soon ...
