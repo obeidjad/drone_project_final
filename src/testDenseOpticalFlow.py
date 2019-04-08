@@ -10,40 +10,30 @@ from sensor_msgs.msg import CompressedImage
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float32
 import sys
-from matplotlib import pyplot as plt
 import math
 from cv_bridge import CvBridge, CvBridgeError
 
 class EnterDoors:
     def __init__(self):
-        self.img_read = rospy.Subscriber("/image_in",Image,self.transform_image)
+        self.img_read = rospy.Subscriber("/drone/front/compressed",CompressedImage,self.transform_image)
         self.br = CvBridge()
         self.prvs = None
         self.next = None
         self.hsv = None
-        self.fig, self.ax = plt.subplots()
-        self.ax.set_xlabel('Flow')
-        self.bins = 320
-        self.ax.set_ylabel('mag')
-        self.lw = 3
-        self.alpha = 0.5
-        self.lineGray, = self.ax.plot(np.arange(self.bins), np.zeros((self.bins,1)), c='k', lw=self.lw)
-        self.ax.set_xlim(0, self.bins-1)
-        self.ax.set_ylim(0, 20)
-        plt.ion()
-
+        self.plot_image = None
         # Parameters for lucas kanade optical flow
     def transform_image(self,ros_data):
-        cv2_image = self.br.imgmsg_to_cv2(ros_data)
+        cv2_image = self.br.compressed_imgmsg_to_cv2(ros_data)
         cv2_image = cv2.resize(cv2_image, (320,240), interpolation = cv2.INTER_AREA)
         cv2_gray = cv2.cvtColor(cv2_image,cv2.COLOR_BGR2GRAY)
         self.hsv = np.zeros_like(cv2_image)
+        self.plot_image = np.ones_like(cv2_gray)
+        self.plot_image = 255*self.plot_image
         if(self.prvs is None):
             self.prvs = cv2_gray
         else:
             self.next = cv2_gray
             self.draw_and_dispaly() 
-            self.fig.canvas.draw()
             self.prvs = self.next.copy()
         
     def draw_and_dispaly(self):
@@ -54,19 +44,24 @@ class EnterDoors:
         overX = np.multiply(mag,ang2)
         dat = overX.mean(0)
         dat = np.absolute(dat)
+        dat = dat*10
+        dat[dat>230] = 230
         self.hsv[...,0] = ang*180/np.pi/2
         self.hsv[...,2] = cv2.normalize(mag,None,0,255,cv2.NORM_MINMAX)
         bgr = cv2.cvtColor(self.hsv,cv2.COLOR_HSV2BGR)
         cv2.imshow('frame2',bgr)
         cv2.imshow('frame',self.next)
-        self.lineGray.set_ydata(dat)
-
+        for i in range(320):
+            self.plot_image[int(dat[i]),i] = 0
+            self.plot_image[int(dat[i])+1,i] = 0
+            self.plot_image[int(dat[i])+2,i] = 0
+        cv2.imshow('Plot',self.plot_image)
+        cv2.waitKey(10)
 def main(args):
     rospy.init_node('ShowPoints', anonymous=True)
     sc = EnterDoors()
     #rospy.init_node('send_command', anonymous=True)
-    #rospy.spin()
-    plt.show(block=True)
+    rospy.spin()
 if __name__ == '__main__':
     main(sys.argv)
 
