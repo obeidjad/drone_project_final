@@ -1,7 +1,6 @@
 # TESTING 
 -Testing compatibility between the image processing and sending constant V
 
--Testing the optical flow(Done, LK is not good here, replace it with GF)
 # Semi-Autonomous Drone Pilot
 
 This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 using image processing (OpenCV) and unsupervised machine learning (Clustering).
@@ -39,4 +38,8 @@ Note that the rate of sending data to the drone is equal to the fastest rate bet
 The ``` vel_tester.py ``` file is an example on moving with a constant velocity.
 
 ## Indoor navigation
+### Hallways navigation
 Soon ...
+### Distance Estimation using camera
+Soon ...
+
