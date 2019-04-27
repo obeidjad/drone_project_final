@@ -13,7 +13,7 @@ The Second part is built on the first one and it some nodes doing image processi
 The First part is totaly isolated from the second one and can be used on any Parrot Bebop Drone.
 In this File , you can see how to use the first one, the second one is coming soon 
 
-## Using The Constant V Command
+## Moving The Drone
 First Clone this repo in your catkin workspace
 ```
 $ git clone https://gitlab.centralesupelec.fr/obeid_jad/dorne_project.git drone_project
@@ -34,8 +34,11 @@ After that activate the function you want to use , For example, if you want to m
 And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
 Note that the rate of sending data to the drone is equal to the fastest rate between the 3 ``` /vel_in ``` topics.
 
+You can also command the velocity on the z axis by defining a target angle to turn the drone to it.
+Before doing this, deactivate and reset the command for the z axis constant velocity module by sending zero to ```/activate_z ``` and sending any integer to ``` reset_cmd_z```.
+After that activate the  ```turn_ro_angle``` node by sending 1 to ```\activation_ang_z``` and then send the desired angle in radians to the topic ```\ang_in_z```.
 ### Example:
-The ``` vel_tester.py ``` file is an example on moving with a constant velocity.
+The ``` move_tester.py ``` file is an example on moving with a constant velocity.
 
 ## Indoor navigation
 ### Hallways navigation
