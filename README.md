@@ -44,5 +44,16 @@ The ``` move_tester.py ``` file is an example on moving with a constant velocity
 ### Hallways navigation
 Soon ...
 ### Distance Estimation using camera
-Soon ...
+This project contains a node able to estimate distances of moving objects using dense optical flow with the "Gunnar Farneback" algorithm.
+
+To use this module you can just run the ```testDenseOpticalFlow.py``` node :
+
+```
+$ rosrun drone_project testDenseOpticalFlow.py
+```
+
+and to view the histogram showing distances, run the rqt_image_view and choose the topic ```/image_graph```
+```
+$ rqt_image_view
+```
 

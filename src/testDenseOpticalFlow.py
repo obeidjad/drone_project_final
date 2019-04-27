@@ -73,13 +73,9 @@ class EnterDoors:
             self.plot_image[int(dat2[i]),i] = 120
             self.plot_image[int(dat2[i])+1,i] = 120
             self.plot_image[int(dat2[i])+2,i] = 120
-        #cv2.imshow('Plot',self.cv2_roi)
         cmprsmsg = self.br.cv2_to_imgmsg(self.plot_image)
-        #cmprsmsg2 = self.br.cv2_to_imgmsg(bgr, encoding='passthrough')
         self.img_pub.publish(cmprsmsg)
-        #self.roi_pub.publish(cmprsmsg2)
         self.old_dat = dat.copy()
-        #cv2.waitKey(10)
 def main(args):
     rospy.init_node('ShowPoints', anonymous=True)
     sc = EnterDoors()
