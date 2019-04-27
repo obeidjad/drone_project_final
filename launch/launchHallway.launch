@@ -2,6 +2,4 @@
 <node pkg="drone_project" name="ImageProcessing" type="image_proc.py">
     <remap from="/image_in" to="/bebop/image_raw"/>
 </node>
-<node pkg="drone_project" name="ComputeTarZ" type="compute_tar_z.py">
-</node>
 </launch>

@@ -1,0 +1,15 @@
+<launch>
+
+  <include file="$(find bebop_driver)/launch/bebop_node.launch" />
+
+  <node name="safe" pkg="demo_teleop" type="safe_drone_teleop.py"
+output="screen" launch-prefix="xterm -e">
+    <remap from="takeoff" to="/bebop/takeoff"/>
+    <remap from="land" to="/bebop/land"/>
+    <remap from="reset" to="/bebop/reset"/>
+    <remap from="cmd_vel_out" to="/bebop/cmd_vel"/>
+    <remap from="cmd_vel_in" to="/cmd_vel"/>
+  </node>
+
+
+</launch>
