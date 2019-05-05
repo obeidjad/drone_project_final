@@ -16,6 +16,7 @@ class XCommand(RegulatorClass):
     def read_val(self,ros_data):
         twist = ros_data.twist.twist
         self.currVal = twist.linear.x
+        print "Val Read"
 def main(args):
     rospy.init_node('computeX', anonymous=True)
     sc = XCommand()

@@ -4,7 +4,15 @@ import rospy
 from std_msgs.msg import Float32,Int32
 
 def talker():
+    sub_ack_1 = rospy.Subscriber("/ack_res_x",Int32,update_ack_x)
+    sub_ack_2 = rospy.Subscriber("/ack_res_y",Int32,update_ack_y)
+    sub_ack_3 = rospy.Subscriber("/ack_res_z",Int32,update_ack_z)
+    sub_ack_4 = rospy.Subscriber("/ack_res_a",Int32,update_ack_a)
     
+    ack_1 = 0
+    ack_2 = 0
+    ack_3 = 0
+    ack_4 = 0
     
     pubres1 = rospy.Publisher("/reset_cmd_x", Int32, queue_size=1)
     pubres2 = rospy.Publisher("/reset_cmd_y", Int32, queue_size=1)
@@ -32,15 +40,15 @@ def talker():
 
     rate = rospy.Rate(5) # 5hz
     while not rospy.is_shutdown():
-        velx = 0.0
+        velx = 0.2
         vely = 0.0
         velz = 0.0
-        ang = 20
+        ang = 20.0/180
         
         pubact1.publish(1)
         pubact2.publish(1)
         pubact3.publish(0)
-        pubact4.publish(1)
+        pubact4.publish(0)
 
         pubvel1.publish(velx)
         pubvel2.publish(vely)

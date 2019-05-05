@@ -26,6 +26,7 @@ class EnterDoors:
         self.old_dat = None
         self.alpha = 0.25
         self.alpha2 = 0.65
+        self.thresh = 0
         # Parameters for lucas kanade optical flow
     def transform_image(self,ros_data):
         cv2_image = self.br.compressed_imgmsg_to_cv2(ros_data)
@@ -75,6 +76,7 @@ class EnterDoors:
             self.plot_image[int(dat2[i])+2,i] = 120
         cmprsmsg = self.br.cv2_to_imgmsg(self.plot_image)
         self.img_pub.publish(cmprsmsg)
+
         self.old_dat = dat.copy()
 def main(args):
     rospy.init_node('ShowPoints', anonymous=True)
