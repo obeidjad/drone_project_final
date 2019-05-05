@@ -1,5 +1,7 @@
 # TESTING 
--Testing compatibility between the image processing and sending constant V
+-Testing disable activation
+-Testing detecting doors using optical flow
+-Testing the Turning to a specified angle
 
 # Semi-Autonomous Drone Pilot
 
@@ -27,8 +29,9 @@ To use this feature you need to launch the VelLaunch.launch
 ```
 $ roslaunch drone_project VelLaunch.launch
 ```
-First start with sending a reset command to this modules by sending any integer to the topics ```reset_cmd_x```,```reset_cmd_y``` and ```reset_cmd_z```.
-
+First start with sending a reset command to this modules by sending any integer to the topics ```/reset_cmd_x```,```/reset_cmd_y``` and ```/reset_cmd_z```.
+(Recommanded) 
+Wait for receiving the acknoledge from the drone , on the topics ```/ack_res_x``` , ```/ack_res_y``` and ```/ack_res_z```. Once the reset is done you will receive ```1``` on these 3 topics.
 And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
 Note that the rate of sending data to the drone is equal to the fastest rate between the 3 ``` /vel_in ``` topics.
 
