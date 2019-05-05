@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-This node will is for testing the optical flow in order to enter through doors 
+This node will is for testing the optical flow in order to detect opened doors
 """
 
 import numpy as np
@@ -12,6 +12,7 @@ from std_msgs.msg import Float32
 import sys
 import math
 from cv_bridge import CvBridge, CvBridgeError
+import random
 
 class EnterDoors:
     def __init__(self):
@@ -26,7 +27,8 @@ class EnterDoors:
         self.old_dat = None
         self.alpha = 0.25
         self.alpha2 = 0.65
-        self.thresh = 0
+        self.thresh = 50
+        self.dat_bin = None
         # Parameters for lucas kanade optical flow
     def transform_image(self,ros_data):
         cv2_image = self.br.compressed_imgmsg_to_cv2(ros_data)
@@ -43,7 +45,24 @@ class EnterDoors:
             self.next = cv2_gray_roi
             self.draw_and_dispaly() 
             self.prvs = self.next.copy()
-        
+    def check_doors(self,limits_idx):
+        for i in range(len(limits_idx) - 1):
+            left = limits_idx[i]
+            right = limits_idx[i+1]
+            img = self.next[...,left:right]
+            height, width, channels = img.shape
+            if self.dat_bin[int((left+right)/2)] == 0:
+                #In this case we have no optical flow, we need to compute the variance
+                myrands_x = random.sample(xrange(width),10)
+                myrands_y = random.sample(xrange(height),10)
+                tmp_pixels_x = img[...,myrands_x]
+                tmp_pixels_y = img[myrands_y,...]
+                var_x = np.var(tmp_pixels_x,axis = 0)
+                var_y = np.var(tmp_pixels_y,axis = 1)
+                m_var_x = np.mean(var_x)
+                m_var_y = np.mean(var_y)
+                if m_var_x > 1000 and m_var_y > 1000 :
+                    print "Opened door detected from "+str(left)+" to "+str(right)
     def draw_and_dispaly(self):
         flow = cv2.calcOpticalFlowFarneback(self.prvs,self.next, None, 0.5, 2, 15, 3, 5, 1.2, 0)
         u = flow[...,0]
@@ -76,7 +95,16 @@ class EnterDoors:
             self.plot_image[int(dat2[i])+2,i] = 120
         cmprsmsg = self.br.cv2_to_imgmsg(self.plot_image)
         self.img_pub.publish(cmprsmsg)
+        
+        self.dat_bin = np.zeros_like(dat)
+        self.dat_bin[self.dat_bin > self.thresh] = 1
+        diff_dat = np.diff(dat_bin)
+        diff_dat = np.absolute(diff_dat)
+        idx = np.where(diff_dat == 1)
+        idx = np.concatenate(idx)
 
+        idx = idx + 1
+        self.check_doors(limits_idx=idx)
         self.old_dat = dat.copy()
 def main(args):
     rospy.init_node('ShowPoints', anonymous=True)
