@@ -62,3 +62,4 @@ and to view the histogram showing distances, run the rqt_image_view and choose t
 $ rqt_image_view
 ```
 
+This node will print out in the terminal whenever an opened door is detected and it will specify where is the door on the image
