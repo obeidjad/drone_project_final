@@ -1,9 +1,9 @@
 # TESTING 
--Testing disable activation
+-Testing disable activation (Done, Activation will be removed)
 
 -Testing detecting doors using optical flow
 
--Testing the Turning to a specified angle
+-Testing the Turning to a specified angle (Done, it works)
 
 # Semi-Autonomous Drone Pilot
 

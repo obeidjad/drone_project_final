@@ -2,12 +2,13 @@
 
 import rospy
 from std_msgs.msg import Float32,Int32
+import sys
 
 class TurnDrone:
     def __init__(self):
-        self.sub_ack_1 = rospy.Subscriber("/ack_res_x",Int32,update_ack_x)
-        self.sub_ack_2 = rospy.Subscriber("/ack_res_y",Int32,update_ack_y)
-        self.sub_ack_3 = rospy.Subscriber("/ack_res_z",Int32,update_ack_z)
+        self.sub_ack_1 = rospy.Subscriber("/ack_res_x",Int32,self.update_ack_x)
+        self.sub_ack_2 = rospy.Subscriber("/ack_res_y",Int32,self.update_ack_y)
+        self.sub_ack_3 = rospy.Subscriber("/ack_res_z",Int32,self.update_ack_z)
         
         self.ack_1 = 0
         self.ack_2 = 0

@@ -27,7 +27,7 @@ class EnterDoors:
         self.old_dat = None
         self.alpha = 0.25
         self.alpha2 = 0.65
-        self.thresh = 50
+        self.thresh = 20
         self.dat_bin = None
         # Parameters for lucas kanade optical flow
     def transform_image(self,ros_data):
@@ -50,10 +50,11 @@ class EnterDoors:
             left = limits_idx[i]
             right = limits_idx[i+1]
             img = self.next[...,left:right]
-            height, width, channels = img.shape
+            print img.shape
+            height, width = img.shape
             if self.dat_bin[int((left+right)/2)] == 0:
                 #In this case we have no optical flow, we need to compute the variance
-                myrands_x = random.sample(xrange(width),10)
+                myrands_x = random.sample(xrange(width),width)
                 myrands_y = random.sample(xrange(height),10)
                 tmp_pixels_x = img[...,myrands_x]
                 tmp_pixels_y = img[myrands_y,...]
@@ -95,15 +96,20 @@ class EnterDoors:
             self.plot_image[int(dat2[i])+2,i] = 120
         cmprsmsg = self.br.cv2_to_imgmsg(self.plot_image)
         self.img_pub.publish(cmprsmsg)
+        cmprsmsg = self.br.cv2_to_imgmsg(self.next)
+        self.roi_pub.publish(cmprsmsg)
         
         self.dat_bin = np.zeros_like(dat)
-        self.dat_bin[self.dat_bin > self.thresh] = 1
-        diff_dat = np.diff(dat_bin)
+        self.dat_bin[dat > self.thresh] = 1
+        diff_dat = np.diff(self.dat_bin)
         diff_dat = np.absolute(diff_dat)
         idx = np.where(diff_dat == 1)
         idx = np.concatenate(idx)
 
         idx = idx + 1
+        idx = np.insert(idx,0,[0],axis = 0)
+        idx = np.append(idx,320)
+        print idx
         self.check_doors(limits_idx=idx)
         self.old_dat = dat.copy()
 def main(args):

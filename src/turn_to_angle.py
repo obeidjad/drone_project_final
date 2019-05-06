@@ -16,18 +16,23 @@ class TurnDrone:
     def __init__(self):
         self.tar_sub = rospy.Subscriber("/ang_in_z",Float32,self.read_tar)
         self.cur_sub = rospy.Subscriber("/bebop/odom",Odometry,self.read_cur)
-        self.cmd_pub = rospy.Publisher("/vel_in_z",Float32,queue_size=1)
-        self.tar_ang = 10.0/180
+        self.cmd_pub_z = rospy.Publisher("/vel_in_z",Float32,queue_size=1)
+        self.cmd_pub_x = rospy.Publisher("/vel_in_x",Float32,queue_size=1)
+        self.cmd_pub_y = rospy.Publisher("/vel_in_y",Float32,queue_size=1)
+        self.tar_ang = 45.0/180*np.pi
         self.cur_ang = 0
-        self.dc = DroneCommand(0.05,0,0)
+        self.dc = DroneCommand(0.5,0,0)
     def read_tar(self,ros_data):
         pass
     def read_cur(self,ros_data):
-        curr_pose = ros_data.data.pose.pose
+        curr_pose = ros_data.pose.pose
         cur_ang_quat = curr_pose.orientation.z
         self.cur_ang = 2*np.arcsin(cur_ang_quat)
         cmd = self.dc.computeCommand(self.cur_ang,self.tar_ang)
-        self.cmd_pub.publish(cmd)
+        cmd = GenTools.setMax(cmd,0.3)
+        self.cmd_pub_z.publish(cmd)
+        self.cmd_pub_x.publish(0)
+        self.cmd_pub_y.publish(0)
 def main(args):
     rospy.init_node('TurnDrone', anonymous=True)
     sc = TurnDrone()
