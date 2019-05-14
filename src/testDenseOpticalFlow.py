@@ -26,7 +26,7 @@ class EnterDoors:
         self.plot_image = None
         self.old_dat = None
         self.alpha = 0.25
-        self.alpha2 = 0.65
+        self.alpha2 = 0.85
         self.thresh = 20
         self.dat_bin = None
         # Parameters for lucas kanade optical flow
