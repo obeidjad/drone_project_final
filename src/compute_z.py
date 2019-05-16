@@ -19,7 +19,10 @@ class ZCommand(RegulatorClass):
         #    return
         self.cmd_publisher.publish(ros_data.data)
     def read_val(self,ros_data):
-        pass
+        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
+        if(self.reset_ack == 1 and self.data_rec == 1):
+            self.cmd_publisher.publish(self.cmd)
+            self.data_rec = 0
 
 def main(args):
     rospy.init_node('computeZ', anonymous=True)

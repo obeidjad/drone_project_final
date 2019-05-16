@@ -15,7 +15,7 @@ from Regulator import RegulatorClass
 
 class YCommand(RegulatorClass):
     def __init__(self):
-        super(YCommand,self).__init__(0.7,0.03,0.6)
+        super(YCommand,self).__init__(0.4,0.03,0.8)
 
     def read_val(self,ros_data):
         #In this Topic here we need to send the command to the drone
@@ -27,6 +27,10 @@ class YCommand(RegulatorClass):
         self.targVal = GenTools.setMax(self.targVal,0.3)
         #ycmd = self.dc.computeCommand(self.currVal,self.targVal)
         #self.cmd_publisher.publish(ycmd)
+        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
+        if(self.reset_ack == 1 and self.data_rec == 1):
+            self.cmd_publisher.publish(self.cmd)
+            self.data_rec = 0
 
 def main(args):
     rospy.init_node('computeY', anonymous=True)

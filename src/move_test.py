@@ -58,6 +58,7 @@ class TurnDrone:
             rate.sleep()
 def main(args):
     rospy.init_node('MoveTest', anonymous=True)
+    
     sc = TurnDrone()
     #rospy.init_node('send_command', anonymous=True)
 if __name__ == '__main__':
