@@ -18,6 +18,24 @@ class DroneCommand:
             Derr = 0
         self.cmd = self._P*err + self.TotErr*self._I + self._D*Derr
         return self.cmd
+class Sequence:
+    def __init__(self,mode='init'):
+        self._mode = mode
+        self._phase = 0
+        self._published=False
+    def get_phase(self):
+        return self._phase
+    def get_mode(self):
+        return self._mode
+    def get_publ(self):
+        return self._published
+    def set_phase(self,val):
+        self._phase = val
+    def set_published(self,val):
+        self._published = val
+    def reset_seq(self):
+        self._published = False
+        self._phase = 0
 class GenTools:
     def __init__(self):
         pass

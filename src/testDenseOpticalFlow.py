@@ -14,9 +14,11 @@ import math
 from cv_bridge import CvBridge, CvBridgeError
 import random
 from nav_msgs.msg import Odometry
+from activation_class import NodeActivate
 
-class EnterDoors:
+class EnterDoors(NodeActivate):
     def __init__(self):
+        super(EnterDoors,self).__init__("checkDoors")
         self.br = CvBridge()
         self.prvs = None
         self.next = None
@@ -28,16 +30,7 @@ class EnterDoors:
         self.thresh = 200
         self.dat_bin = None
         self.my_vel = 0
-
-        self.res_pub_x = rospy.Publisher("/reset_cmd_x",Int32,queue_size=1)
-        self.res_pub_y = rospy.Publisher("/reset_cmd_y",Int32,queue_size=1)
-        self.res_pub_z = rospy.Publisher("/reset_cmd_z",Int32,queue_size=1)
-        rate = rospy.Rate(10)
-        for i in range(5):
-            self.res_pub_x.publish(1)
-            self.res_pub_y.publish(1)
-            self.res_pub_z.publish(1)
-            rate.sleep()
+        self.conf = 0
 
         self.img_read = rospy.Subscriber("/bebop/image_raw/compressed",CompressedImage,self.transform_image)
         self.img_pub = rospy.Publisher("/image_graph",Image,queue_size=1)
@@ -47,19 +40,26 @@ class EnterDoors:
         
         self.vel_pub_x = rospy.Publisher("/vel_in_x",Float32,queue_size=1)
         self.vel_pub_y = rospy.Publisher("/vel_in_y",Float32,queue_size=1)
-        self.vel_pub_z = rospy.Publisher("/vel_in_z",Float32,queue_size=1)
 
-
-
-        
-        print "TEST TEST"
+        self.door_pub = rospy.Publisher("/door_det",Int32,queue_size=1)
+        self.y_vel = 0
     def update_vel(self,ros_data):
+        if(self.node_active == 0):
+            return
         twist = ros_data.twist.twist
         self.my_vel = np.absolute(twist.linear.y)
+        curr_pose = ros_data.pose.pose
+        cur_ang_quat = curr_pose.orientation.z
+        if(cur_ang_quat > 0):
+            self.y_vel = -0.3
+        else:
+            self.y_vel = 0.3
+        
     def transform_image(self,ros_data):
+        if(self.node_active == 0):
+            return
         self.vel_pub_x.publish(0)
-        self.vel_pub_y.publish(0.3)
-        self.vel_pub_z.publish(0)
+        self.vel_pub_y.publish(self.y_vel)
         cv2_image = self.br.compressed_imgmsg_to_cv2(ros_data)
         cv2_image = cv2.resize(cv2_image, (320,240), interpolation = cv2.INTER_AREA)
         cv2_roi = cv2_image[80:160,:]
@@ -94,6 +94,14 @@ class EnterDoors:
                 if(m_var_x > 500):
                     #print "Door detected between "+str(left) + " and "+str(right)
                     cv2.circle(self.plot_image,(int((left+right)/2),100),3,(0,0,0),-1)
+                    if(left < 20 and right > 300):
+                        self.conf = self.conf + 1
+                    else:
+                        self.conf = 0
+                    if(self.conf > 3):
+                        #Here we can say that, we have a door
+                        self.door_pub.publish(1)
+
     def draw_and_dispaly(self):
         flow = cv2.calcOpticalFlowFarneback(self.prvs,self.next, None, 0.5, 2, 15, 3, 5, 1.2, 0)
         u = flow[...,0]
