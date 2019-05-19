@@ -51,6 +51,10 @@ class Sequencer(object):
             pass
     def reset_seq_func(self):
         self.actv_pub.publish("resetCmd_1")
+    def stairs_seq_func(self):
+        pass
+    def hallway_seq_func(self):
+        pass
     def doors_seq_func(self):
         if(self.doors_seq.get_phase() == 0 ):
             if (self.doors_seq.get_publ() == False) :
