@@ -32,13 +32,20 @@ class Window(QtGui.QMainWindow):
         btn.clicked.connect(self.Doors)
         btn.resize(100,70)
         btn.move(230,10)
+
+        btn = QtGui.QPushButton("Freeze",self)
+        btn.clicked.connect(self.Freeze)
+        btn.resize(100,70)
+        btn.move(340,10)
         self.show()
     def hallway_nav(self):
         self.mode_pub.publish("hallway")
     def Stairs(self):
         self.mode_pub.publish("stairs")
     def Doors(self):
-        self.mode_pub.publish("door")
+        self.mode_pub.publish("doors")
+    def Freeze(self):
+        self.mode_pub.publish("init")
 
     def close_app(self):
         print "Closing"
