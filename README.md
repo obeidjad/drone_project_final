@@ -30,7 +30,7 @@ And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the 
 The frequency of sending data to the drone is equal to 5Hz.
 
 ### Example Moving at constant Velocity:
-The ``` move_tester_test.py ``` file is an example of moving with a constant velocity.
+The ``` move_tester.py ``` file is an example of moving with a constant velocity.
 
 ## Using The Interface
 To run the other parts of the project, you need to launch the file  ```Sequencer.launch```.
