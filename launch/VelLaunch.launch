@@ -2,19 +2,19 @@
 <node pkg="drone_project" name="ComputeX" type="compute_x.py">
     <remap from="/tar_in" to="/vel_in_x"/>
     <remap from="/vel_out" to="/vel_out_x"/>
-    <remap from="/curr_data" to="/bebop/odom" />
+    <remap from="/curr_in" to="/bebop/odom" />
     <remap from="/reset_cmd" to="/reset_cmd_x"/>
 </node>
 <node pkg="drone_project" name="ComputeY" type="compute_y.py">
     <remap from="/tar_in" to="/vel_in_y"/>
     <remap from="/vel_out" to="/vel_out_y"/>
-    <remap from="/curr_data" to="/bebop/odom" />
+    <remap from="/curr_in" to="/bebop/odom" />
     <remap from="/reset_cmd" to="/reset_cmd_y"/>
 </node>
 <node pkg="drone_project" name="ComputeZ" type="compute_z.py">
     <remap from="/tar_in" to="/vel_in_z"/>
     <remap from="/vel_out" to="/vel_out_z"/>
-    <remap from="/curr_data" to="/bebop/odom" />
+    <remap from="/curr_in" to="/bebop/odom" />
     <remap from="/reset_cmd" to="/reset_cmd_z"/>
 </node>
 <node pkg="drone_project" name="sendCommand" type="send_cmd.py">

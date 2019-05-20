@@ -10,15 +10,20 @@ import sys
 from projectTools import GenTools,DroneCommand
 from Regulator import RegulatorClass
 from std_msgs.msg import Float32,Int32
+from activation_class import NodeActivate
 
-class ComputeYTar:
+class ComputeYTar(NodeActivate):
     def __init__(self):
+        super(ComputeYTar,self).__init__("compute_tar_y")
+        cmd_reset = rospy.Publisher("/reset_cmd_y",Int32,queue_size=1)
         self.sDiff_subscriber = rospy.Subscriber("/sDiffs",Float32,self.read_sDiffs)
         self.cmd_publisher = rospy.Publisher("/vel_in_y",Float32,queue_size=1)
         self.act_publisher = rospy.Publisher("/activation_y",Int32,queue_size=1)
         self.targY = 0
         #self.act_publisher.publish(0)
     def read_sDiffs(self,ros_data):
+        if(self.node_active == 0):
+            return
         #read the centroid and send the data
         self.targY = ros_data.data
         #The value of the velocity is proportional to the value of the difference of the values

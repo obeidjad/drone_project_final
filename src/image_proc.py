@@ -20,9 +20,11 @@ import math
 from cv_bridge import CvBridge, CvBridgeError
 from itertools import combinations, chain
 import datetime
+from activation_class import NodeActivate
 
-class image_convert:
+class image_convert(NodeActivate):
     def __init__(self):
+        super(image_convert,self).__init__("detectVanish")
         self.pub = rospy.Publisher("/centroids", Float32, queue_size=1)
         self.pubDiff = rospy.Publisher('/sDiffs',Float32,queue_size=1)
         self.pubForBag = rospy.Publisher('/imgForBag/front/compressed', CompressedImage, queue_size=1)
@@ -194,6 +196,8 @@ class image_convert:
 
     def callback(self,ros_data):
         #msg = ""
+        if(self.node_active == 0):
+            return
         cv2_img = self.br.imgmsg_to_cv2(ros_data)
         #np_arr = np.fromstring(ros_data.data, np.uint8)
         #image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
@@ -211,7 +215,7 @@ def main(args):
     rospy.init_node('image_feature', anonymous=True)
     ic = image_convert()
     rospy.spin()
-    ic.saveData()
+    #ic.saveData()
     cv2.destroyAllWindows()
 
 

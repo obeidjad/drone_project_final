@@ -19,22 +19,20 @@ class RegulatorClass(object):
         self.ack_reset = rospy.Publisher("/ack_res",Int32,queue_size=1)
         self.currVal = 0
         self.targVal = 0
+        self.reset_ack = 0
+        self.data_rec = 0
     #    self.activation = 0
     def read_tar(self,ros_data):
         print "tar received"
         #if(self.activation == 0):
         #    return 
         self.targVal = ros_data.data
-        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
-        self.cmd_publisher.publish(self.cmd)
+        self.data_rec = 1
+        #self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
+        #self.cmd_publisher.publish(self.cmd)
         print "cmd sent"
-    #def check_activation(self,ros_data):
-    #    print "Activation received"
-    #    self.activation = ros_data.data
-    #    if self.activation == 0:
-    #        self.cmd_publisher.publish(0.0)
     def reset_cmd(self,ros_data):
         self.dc.cmd = 0
         self.dc.TotErr = 0
         self.dc.oldErr = 0
-        self.ack_reset.publish(1)
+        self.reset_ack = 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import Int32,Float32
+from std_msgs.msg import Int32,Float32,String
 import sys
 from PyQt4 import QtGui,QtCore
 
@@ -10,14 +10,7 @@ class Window(QtGui.QMainWindow):
         super(Window,self).__init__()
         self.setGeometry(50,50,500,300)
         self.setWindowTitle("Command Test")
-        self.pub = rospy.Publisher("/mode", Int32, queue_size=1)
-        self.pub.publish(0)
-        self.pubx = rospy.Publisher("/in_vel_x", Float32, queue_size=1)
-        self.puby = rospy.Publisher("/in_vel_y", Float32, queue_size=1)
-
-        rospy.init_node("Project_Master", anonymous=True)
-        self.xval = 0.2
-        self.yval = 0
+        self.mode_pub = rospy.Publisher("/mode",String,queue_size=1)
         self.home()
     def home(self):
         btn = QtGui.QPushButton("Quit",self)
@@ -30,40 +23,37 @@ class Window(QtGui.QMainWindow):
         btn.resize(100,70)
         btn.move(10,10)
 
-        btn = QtGui.QPushButton("Constant V",self)
-        btn.clicked.connect(self.cnstnt_v)
+        btn = QtGui.QPushButton("Stairs",self)
+        btn.clicked.connect(self.Stairs)
         btn.resize(100,70)
         btn.move(120,10)
 
-        btn = QtGui.QPushButton("Freeze",self)
-        btn.clicked.connect(self.freeze_drone)
+        btn = QtGui.QPushButton("Doors",self)
+        btn.clicked.connect(self.Doors)
         btn.resize(100,70)
         btn.move(230,10)
 
+        btn = QtGui.QPushButton("Freeze",self)
+        btn.clicked.connect(self.Freeze)
+        btn.resize(100,70)
+        btn.move(340,10)
         self.show()
     def hallway_nav(self):
-        #In this Mode the drone will navigate in the hallways
-        self.pubx.publish(self.xval)
-        cmd = 1;
-        self.pub.publish(cmd)
-    
-    def cnstnt_v(self):
-        #In this mode the drone will move at a givem velocity , 
-        #this velocity is predefined here in the code and it will be sent to /in_vel_x and /in_vel_y
-        self.pubx.publish(self.xval)
-        self.puby.publish(self.yval)
-        cmd = 2;
-        self.pub.publish(cmd)
-    def freeze_drone(self):
-        #In this mode the drone will receive a twist of zero and will stay stable in the position
-        cmd = 0;
-        self.pub.publish(cmd)
+        self.mode_pub.publish("hallway")
+    def Stairs(self):
+        self.mode_pub.publish("stairs")
+    def Doors(self):
+        self.mode_pub.publish("doors")
+    def Freeze(self):
+        self.mode_pub.publish("init")
 
     def close_app(self):
         print "Closing"
         sys.exit()
 def run():
+    rospy.init_node('Main', anonymous=True)
     app = QtGui.QApplication(sys.argv)
     GUI = Window()
+
     sys.exit(app.exec_())
 run()
