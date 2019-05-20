@@ -7,6 +7,7 @@ The input node is the topic /desired_yaw and the output is the /vel_in_z after a
 import numpy as np
 import rospy
 import sys
+import time
 from projectTools import GenTools,DroneCommand
 from Regulator import RegulatorClass
 from std_msgs.msg import Float32,Int32

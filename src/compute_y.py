@@ -28,7 +28,7 @@ class YCommand(RegulatorClass):
         #ycmd = self.dc.computeCommand(self.currVal,self.targVal)
         #self.cmd_publisher.publish(ycmd)
         self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
-        if(self.reset_ack == 1 and self.data_rec == 1):
+        if(self.data_rec == 1):
             self.cmd_publisher.publish(self.cmd)
             self.data_rec = 0
 

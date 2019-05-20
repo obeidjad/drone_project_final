@@ -17,10 +17,12 @@ class ZCommand(RegulatorClass):
     def read_tar(self,ros_data):
         #if(self.activation == 0):
         #    return
-        self.cmd_publisher.publish(ros_data.data)
+        #self.cmd_publisher.publish(ros_data.data)
+        self.cmd = ros_data.data
+        self.data_rec = 1
     def read_val(self,ros_data):
-        self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
-        if(self.reset_ack == 1 and self.data_rec == 1):
+        #self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
+        if(self.data_rec == 1):
             self.cmd_publisher.publish(self.cmd)
             self.data_rec = 0
 

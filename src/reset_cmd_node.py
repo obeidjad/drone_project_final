@@ -20,9 +20,16 @@ class resetCmd(NodeActivate):
     def reset_cmd_func(self,ros_data):
         if(self.node_active == 0):
             return
-        for i in range(10) :
+        for i in range(5) :
             self.pubres1.publish(1)
             self.pubres2.publish(1)
             self.pubres3.publish(1)
             self.rate.sleep()
         self.node_active = 0
+def main(args):
+    rospy.init_node('resetCmd', anonymous=True)
+    sc = resetCmd()
+    #rospy.init_node('send_command', anonymous=True)
+    rospy.spin()
+if __name__ == '__main__':
+    main(sys.argv)

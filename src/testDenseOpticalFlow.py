@@ -58,7 +58,7 @@ class EnterDoors(NodeActivate):
     def transform_image(self,ros_data):
         if(self.node_active == 0):
             return
-        self.vel_pub_x.publish(0)
+        self.vel_pub_x.publish(0.0)
         self.vel_pub_y.publish(self.y_vel)
         cv2_image = self.br.compressed_imgmsg_to_cv2(ros_data)
         cv2_image = cv2.resize(cv2_image, (320,240), interpolation = cv2.INTER_AREA)

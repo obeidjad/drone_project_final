@@ -9,7 +9,7 @@ class NodeActivate(object):
         self.node_active = 0
     def check_act(self,ros_data):
         msg = ros_data.data
-        if(msg == reset):
+        if(msg == 'reset'):
             self.node_active = 0
         else:
             msg,act = msg.split("_")

@@ -23,9 +23,9 @@ def talker():
         rate.sleep()
     start = time.time()
     end = time.time()
-    while end - start < 1:
+    while end - start < 8:
         end = time.time()
-        velx = 0.2
+        velx = 0.3
         vely = 0.0
         velz = 0.0
 
@@ -36,17 +36,6 @@ def talker():
         rate.sleep()
     start = time.time()
     end = time.time()
-    while end - start < 4:
-        end = time.time()
-        velx = 0.0
-        vely = 0.0
-        velz = -0.4
-        
-        pubvel1.publish(velx)
-        pubvel2.publish(vely)
-        pubvel3.publish(velz)
-
-        rate.sleep()
 if __name__ == '__main__':
     try:
         talker()
