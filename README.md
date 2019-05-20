@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> test
 # Semi-Autonomous Drone Pilot
 
 This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 using image processing (OpenCV) and unsupervised machine learning (Clustering).
@@ -99,7 +95,3 @@ If you run this node directly, the drone will move to 90 degrees.
 If not, publish the desired angle in degrees to the topic ```/ang_in```.
 
 
-<<<<<<< HEAD
-This node will print out in the terminal whenever an opened door is detected and it will specify where is the door on the image
-=======
->>>>>>> test
