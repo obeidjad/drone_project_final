@@ -24,7 +24,7 @@ from activation_class import NodeActivate
 
 class image_convert(NodeActivate):
     def __init__(self):
-        super(image_convert,self).__init__("detect_vanish")
+        super(image_convert,self).__init__("detectVanish")
         self.pub = rospy.Publisher("/centroids", Float32, queue_size=1)
         self.pubDiff = rospy.Publisher('/sDiffs',Float32,queue_size=1)
         self.pubForBag = rospy.Publisher('/imgForBag/front/compressed', CompressedImage, queue_size=1)
