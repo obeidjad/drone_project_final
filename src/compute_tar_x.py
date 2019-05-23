@@ -15,11 +15,11 @@ from activation_class import NodeActivate
 
 class ComputeXTar(NodeActivate):
     def __init__(self):
-        super(ComputeXTar,self).__init__("compute_tar_x")
+        super(ComputeXTar,self).__init__("computeTarX")
         cmd_reset = rospy.Publisher("/reset_cmd_x",Int32,queue_size=1)
         self.sync_sub = rospy.Subscriber("/bebop/odom",Odometry,self.sync_cmd)
         self.cmd_publisher = rospy.Publisher("/vel_in_x",Float32,queue_size=1)
-        self.targX = 0.3
+        self.targX = 0.2
     def sync_cmd(self,ros_data):
         if(self.node_active == 0):
             return

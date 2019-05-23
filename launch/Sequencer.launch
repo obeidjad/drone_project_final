@@ -1,0 +1,22 @@
+<launch>
+<node pkg="drone_project" name="Sequencer" type="Sequencer.py">
+</node>
+<node pkg="drone_project" name="Main" type="Main.py">
+</node>
+<node pkg="drone_project" name="optFlow" type="testDenseOpticalFlow.py">
+</node>
+<node pkg="drone_project" name="curveMotion" type="turn_to_angle.py">
+</node>
+<node pkg="drone_project" name="turnAng" type="turn_ang.py">
+</node>
+<node pkg="drone_project" name="resetCmd" type="reset_cmd_node.py">
+</node>
+<node pkg="drone_project" name="computeTarX" type="compute_tar_x.py">
+</node>
+<node pkg="drone_project" name="computeTarY" type="compute_tar_y.py">
+</node>
+<node pkg="drone_project" name="computeTarZ" type="compute_tar_z.py">
+</node>
+<node pkg="drone_project" name="detectVanish" type="image_proc.py">
+</node>
+</launch>

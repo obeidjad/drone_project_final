@@ -1,5 +1,10 @@
 <launch>
 <node pkg="drone_project" name="ImageProcessing" type="image_proc.py">
-    <remap from="/image_in" to="/bebop/image_raw"/>
+</node>
+<node pkg="drone_project" name="XCommand" type="compute_tar_x.py">
+</node>
+<node pkg="drone_project" name="YCommand" type="compute_tar_y.py">
+</node>
+<node pkg="drone_project" name="ZCommand" type="compute_tar_z.py">
 </node>
 </launch>

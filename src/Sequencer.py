@@ -40,6 +40,7 @@ class Sequencer(object):
     def enter_loop(self,ros_data):
         if(self.mode == "init"):
             self.doors_seq.reset_seq()
+            self.hallway_seq.reset_seq()
             self.reset_seq_func()
             pass
         if(self.mode == self.doors_seq.get_mode()):
@@ -57,7 +58,15 @@ class Sequencer(object):
     def stairs_seq_func(self):
         pass
     def hallway_seq_func(self):
-        pass
+        if(hallway_seq.get_publ() == False):
+            self.actv_pub.publish("reset")
+            self.rate.sleep()
+            self.actv_pub.publish("detectVanish_1")
+            self.actv_pub.publish("computeTarX_1")
+            self.actv_pub.publish("computeTarY_1")
+            self.actv_pub.publish("computeTarZ_1")
+            self.rate.sleep()
+            self.doors_seq.set_published(True)
     def doors_seq_func(self):
         if(self.doors_seq.get_phase() == 0 ):
             if (self.doors_seq.get_publ() == False) :
