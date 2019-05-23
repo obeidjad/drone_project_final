@@ -51,7 +51,7 @@ Note that sending ```reset``` will deactivate all nodes.
 ### Distance Estimation using camera
 This project contains a node able to estimate distances of moving objects using dense optical flow with the "Gunnar Farneback" algorithm.
 
-nodeName = checkDoors
+```nodeName = checkDoors```
 
 To use this module you can just run the ```testDenseOpticalFlow.py``` node :
 
@@ -68,7 +68,7 @@ Whenever an opened door is detected, this node will publish ```1```, to the topi
 
 This project contains a node able to detect the vanishing point in a Hallway using DBSCAN clustering algorithm.
 
-nodeName = detectVanish
+```nodeName = detectVanish```
 
 To use this you need to run the ```image_proc.py``` node :
 
@@ -82,7 +82,7 @@ This node will publish the x of this point to the topic ```/centroids```.
 
 This project contains a node able to turn the drone to a specific angle.
 
-nodeName = turnAng
+```nodeName = turnAng```
 
 To use this you need to run the ```turnAng.py``` node :
 
@@ -94,7 +94,16 @@ If you run this node directly, the drone will move to 90 degrees.
 
 If not, publish the desired angle in degrees to the topic ```/ang_in```.
 
+### Reset Command 
+The command here uses  a PID controller, you need sometimes to reset this command, this project contains a node to do that.
 
+``` nameNode = resetCmd ```
+
+To use it after activation:
+
+```
+$ rosrun drone_project reset_cmd_node.py
+```
 ## Add your Code
 ### Before you start
 This project is designed to be scalable so you can add your own nodes, but you need first to take a look at the official bebop autonomy documentation - [this link](https://bebop-autonomy.readthedocs.io/en/latest/) -
