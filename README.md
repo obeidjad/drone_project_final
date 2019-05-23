@@ -100,7 +100,7 @@ If not, publish the desired angle in degrees to the topic ```/ang_in```.
 This project is designed to be scalable so you can add your own nodes, but you need first to take a look at the official bebop autonomy documentation - [this link](https://bebop-autonomy.readthedocs.io/en/latest/) -
 
 ### Activating the Node 
-Your nodes must inherits from the activation class and pass your nameNode.
+Your nodes must inherit from the activation class and pass your nameNode.
 
 That's how to do this.  
 
@@ -120,6 +120,24 @@ self.node_activation == 1 #The node is not active
 
 ### Creating the sequence
 
-After creating your nodes you may need to define your sequence, You have to do this in the ```Sequence.py```.
+After creating your nodes you may need to define your sequence, You have to do this in the ```Sequencer.py``` file.
 
+to do this you need to create an object of type Sequence in the : 
+
+```python
+from projectTools import Sequence
+self.newSeq = Sequence("myNewSeq")
+'''
+Functions : 
+
+self.newSeq.get_mode() #returns the mode that launchs this Sequence
+self.newSeq.get_phase() #returns the phase in this sequence
+self.newSeq.set_phase(1) #Sets the phase to 1 in this case
+self.newSeq.set_published(False) #Sets the published to False in this case
+self.newSeq.get_publ() #returns the published varibale
+
+'''
+
+```
+The Value passed to the Sequence Object is the mode that when received on the topic ```/mode``` , this sequence should run. 
 
