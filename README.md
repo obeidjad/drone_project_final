@@ -95,3 +95,21 @@ If you run this node directly, the drone will move to 90 degrees.
 If not, publish the desired angle in degrees to the topic ```/ang_in```.
 
 
+## Add your nodes
+### Before you start
+This project is designed to be scalable so you can add your own nodes, but you need first to take a look at the official bebop autonomy documentation - [this link](https://bebop-autonomy.readthedocs.io/en/latest/) -
+
+### Activating the Node 
+Your nodes must inherits from the activation class and pass your nameNode.
+
+That's how to do this.  
+
+```python
+from activation_class import NodeActivate
+class myNewNode(NodeActivate)
+    def __init__(self):
+        super(myNewNode,self).__init__("newNodeName")
+        #Your Code
+```
+
+
