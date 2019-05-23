@@ -140,4 +140,15 @@ self.newSeq.get_publ() #returns the published varibale
 
 ```
 The Value passed to the Sequence Object is the mode that when received on the topic ```/mode``` , this sequence should run. 
+After that create a function that will be called when the mode is received , add it to the ```enter_loop``` function.
 
+```python
+def enter_loop(self,ros_data):
+    ########code##############
+    if(self.mode == self.newSeq.get_mode()):
+        self.new_seq_func()
+```
+
+And now it is up to you in your function to write the sequence you want . 
+
+For better results, see how the old sequences are made, like the doors sequence for example.
