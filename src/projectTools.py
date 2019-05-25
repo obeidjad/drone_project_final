@@ -47,8 +47,9 @@ class Sequence:
         self._published = False
     def updateConds(self,ros_data):
         received = ros_data.data
-        ind = self.conds_to_wait.index(received)
-        self._verf_conds[ind] = True
+        if(received in self.conds_to_wait):
+            ind = self.conds_to_wait.index(received)
+            self._verf_conds[ind] = True
 
     def seq_fun(self):
         self.nodes_to_activate = self._seq[self._phase][0]
