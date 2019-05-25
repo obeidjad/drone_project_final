@@ -16,84 +16,28 @@ class Sequencer(object):
 
         self.loop_pub = rospy.Publisher("/loop_seq",Int32,queue_size=1)
         self.loop_sub = rospy.Subscriber("/loop_seq",Int32,self.enter_loop)
-
-        self.turn_done_sub = rospy.Subscriber("/turn_done",Int32,self.turn_done_callback)
-        self.det_doors_sub = rospy.Subscriber("/door_det",Int32,self.door_det_callback)
         
         self.mode = "init"
-
-        self.doors_seq = Sequence("doors")
-        self.stairs_seq = Sequence("stairs")
-        self.hallway_seq = Sequence("hallway")
-        self.init_seq = Sequence("init")
+        """
+        Init should be a list and not a name
+        """
+        doors_seq_list = ["doors",[["curveMotion"],["curveMotion"]],[["checkDoors","turnAng"],["checkDoors"]]]
+        init_seq_list = ["init",[ ["resetCmd"],[] ] ]
+        self.doors_seq = Sequence(doors_seq_list)
+        self.init_seq = Sequence(init_seq_list)
 
         self.rate = rospy.Rate(20) #10Hz
-    def turn_done_callback(self,ros_data):
-        self.doors_seq.set_phase(1)
-        self.doors_seq.set_published(False)
-    def door_det_callback(self,ros_data):
-        self.doors_seq.set_phase(2)
-        self.doors_seq.set_published(False)
     def read_mode(self,ros_data):
         self.mode = ros_data.data
         self.loop_pub.publish(3)
     def enter_loop(self,ros_data):
-        if(self.mode == "init"):
+        if(self.mode == self.init_seq.get_mode()):
             self.doors_seq.reset_seq()
-            self.hallway_seq.reset_seq()
-            self.reset_seq_func()
-            pass
+            #self.hallway_seq.reset_seq()
+            self.init_seq.seq_func()
+        
         if(self.mode == self.doors_seq.get_mode()):
-            self.doors_seq_func()
-            pass
-        if(self.mode == self.stairs_seq.get_mode()):
-            self.stairs_seq_func()
-            pass
-        if(self.mode == self.hallway_seq.get_mode()):
-            self.hallway_seq_func()
-            pass
-    def reset_seq_func(self):
-        self.actv_pub.publish("reset")
-        self.actv_pub.publish("resetCmd_1")
-    def stairs_seq_func(self):
-        pass
-    def hallway_seq_func(self):
-        if(hallway_seq.get_publ() == False):
-            self.actv_pub.publish("reset")
-            self.rate.sleep()
-            self.actv_pub.publish("detectVanish_1")
-            self.actv_pub.publish("computeTarX_1")
-            self.actv_pub.publish("computeTarY_1")
-            self.actv_pub.publish("computeTarZ_1")
-            self.rate.sleep()
-            self.doors_seq.set_published(True)
-    def doors_seq_func(self):
-        if(self.doors_seq.get_phase() == 0 ):
-            if (self.doors_seq.get_publ() == False) :
-                self.actv_pub.publish("reset")
-                self.rate.sleep()
-                self.actv_pub.publish("curveMotion_1")
-                self.rate.sleep()
-                self.doors_seq.set_published(True)
-            if(self.mode != "init"):
-                self.loop_pub.publish(1)
-                self.rate.sleep()
-        if(self.doors_seq.get_phase() == 1):
-            if(self.doors_seq.get_publ() == False):
-                self.actv_pub.publish("reset")
-                self.rate.sleep()
-                self.actv_pub.publish("checkDoors_1")
-                self.actv_pub.publish("turnAng_1")
-                self.rate.sleep()
-                self.doors_seq.set_published(True)
-            if(self.mode != "init"):
-                self.loop_pub.publish(2)
-                self.rate.sleep()
-        if(self.doors_seq.get_phase() == 2):
-            self.actv_pub.publish("reset")
-            self.rate.sleep()
-            self.mode_pub.publish('init')
-
+            self.doors_seq.seq_fun()
 def main(args):
     rospy.init_node('Sequencer', anonymous=True)
     sc = Sequencer()

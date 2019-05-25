@@ -18,9 +18,9 @@ class resetCmd(NodeActivate):
         self.rate = rospy.Rate(10)
 
     def reset_cmd_func(self,ros_data):
-        if(self.node_active == 0):
+        if(self.node_active == False):
             return
-        for i in range(5) :
+        for i in range(5):
             self.pubres1.publish(1)
             self.pubres2.publish(1)
             self.pubres3.publish(1)

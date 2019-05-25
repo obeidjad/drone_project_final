@@ -14,9 +14,9 @@ import math
 from cv_bridge import CvBridge, CvBridgeError
 import random
 from nav_msgs.msg import Odometry
-from activation_class import NodeActivate
+from activation_class import NodeActivate,returnResp
 
-class EnterDoors(NodeActivate):
+class EnterDoors(NodeActivate,returnResp):
     def __init__(self):
         super(EnterDoors,self).__init__("checkDoors")
         self.br = CvBridge()
@@ -56,7 +56,7 @@ class EnterDoors(NodeActivate):
             self.y_vel = 0.3
         
     def transform_image(self,ros_data):
-        if(self.node_active == 0):
+        if(self.node_active == False):
             return
         self.vel_pub_x.publish(0.0)
         self.vel_pub_y.publish(self.y_vel)
@@ -100,7 +100,8 @@ class EnterDoors(NodeActivate):
                         self.conf = 0
                     if(self.conf > 3):
                         #Here we can say that, we have a door
-                        self.door_pub.publish(1)
+                        #self.door_pub.publish(1)
+                        self.send_conf()
 
     def draw_and_dispaly(self):
         flow = cv2.calcOpticalFlowFarneback(self.prvs,self.next, None, 0.5, 2, 15, 3, 5, 1.2, 0)
