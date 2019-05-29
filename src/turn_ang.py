@@ -8,4 +8,3 @@ def main(args):
     rospy.spin()
 if __name__ == '__main__':
     main(sys.argv)
-
