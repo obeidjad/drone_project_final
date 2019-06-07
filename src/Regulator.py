@@ -6,7 +6,7 @@ from nav_msgs.msg import Odometry
 import sys
 from projectTools import DroneCommand
 from std_msgs.msg import Float32,Int32
-
+import time
 class RegulatorClass(object):
     def __init__(self,P,I,D):
         self.odom_subscriber = rospy.Subscriber("/curr_in",Odometry,self.read_val)
@@ -21,6 +21,7 @@ class RegulatorClass(object):
         self.targVal = 0
         self.reset_ack = 0
         self.data_rec = 0
+        self.last_rec = -1
     #    self.activation = 0
     def read_tar(self,ros_data):
         print "tar received"
@@ -28,6 +29,7 @@ class RegulatorClass(object):
         #    return 
         self.targVal = ros_data.data
         self.data_rec = 1
+        self.last_rec = time.time()
         #self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
         #self.cmd_publisher.publish(self.cmd)
         print "cmd sent"

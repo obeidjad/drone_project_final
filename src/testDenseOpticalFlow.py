@@ -15,6 +15,7 @@ from cv_bridge import CvBridge, CvBridgeError
 import random
 from nav_msgs.msg import Odometry
 from activation_class import NodeActivate,returnResp
+import time
 
 class EnterDoors(NodeActivate,returnResp):
     def __init__(self):
@@ -43,8 +44,10 @@ class EnterDoors(NodeActivate,returnResp):
 
         self.door_pub = rospy.Publisher("/door_det",Int32,queue_size=1)
         self.y_vel = 0
+        self.act_time = -1
     def update_vel(self,ros_data):
         if(self.node_active == 0):
+            self.act_time = time.time()
             return
         twist = ros_data.twist.twist
         self.my_vel = np.absolute(twist.linear.y)
@@ -57,6 +60,7 @@ class EnterDoors(NodeActivate,returnResp):
         
     def transform_image(self,ros_data):
         if(self.node_active == False):
+            self.act_time = time.time()
             return
         self.vel_pub_x.publish(0.0)
         self.vel_pub_y.publish(self.y_vel)
@@ -91,14 +95,14 @@ class EnterDoors(NodeActivate,returnResp):
                 #var_y = np.var(tmp_pixels_y,axis = 1)
                 m_var_x = np.mean(var_x)
                 #m_var_y = np.mean(var_y)
-                if(m_var_x > 500):
+                if(m_var_x > 500 and abs(time.time() - self.act_time) > 1):
                     #print "Door detected between "+str(left) + " and "+str(right)
                     cv2.circle(self.plot_image,(int((left+right)/2),100),3,(0,0,0),-1)
                     if(left < 20 and right > 300):
                         self.conf = self.conf + 1
                     else:
                         self.conf = 0
-                    if(self.conf > 3):
+                    if(self.conf > 3 ):
                         #Here we can say that, we have a door
                         #self.door_pub.publish(1)
                         self.send_conf()

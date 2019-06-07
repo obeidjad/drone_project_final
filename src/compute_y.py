@@ -11,6 +11,7 @@ import sys
 from projectTools import GenTools
 from std_msgs.msg import Float32
 from Regulator import RegulatorClass
+import time
 
 
 class YCommand(RegulatorClass):
@@ -22,6 +23,8 @@ class YCommand(RegulatorClass):
         #We need to compute the command first in this method
         #if(self.activation == 0):
         #    return
+        if(np.absolute(self.last_rec - time.time()) > 0.5):
+            self.reset_cmd()
         twist = ros_data.twist.twist
         self.currVal = twist.linear.y
         self.targVal = GenTools.setMax(self.targVal,0.3)

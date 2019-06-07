@@ -9,6 +9,7 @@ import sys
 from projectTools import GenTools
 from Regulator import RegulatorClass
 from std_msgs.msg import Float32,Int32
+import time
 
 class ZCommand(RegulatorClass):
     def __init__(self):
@@ -21,6 +22,8 @@ class ZCommand(RegulatorClass):
         self.cmd = ros_data.data
         self.data_rec = 1
     def read_val(self,ros_data):
+        if(np.absolute(self.last_rec - time.time()) > 0.5):
+            self.reset_cmd()
         #self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
         if(self.data_rec == 1):
             self.cmd_publisher.publish(self.cmd)

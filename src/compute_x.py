@@ -9,13 +9,16 @@ from nav_msgs.msg import Odometry
 import sys
 from Regulator import RegulatorClass
 from std_msgs.msg import Float32
+import time
 
 class XCommand(RegulatorClass):
     def __init__(self):
-        #super(XCommand,self).__init__(0.7,0.03,0.6)
-        super(XCommand,self).__init__(0.8,0.0,0.7)
+        super(XCommand,self).__init__(0.7,0.03,0.6)
+        #super(XCommand,self).__init__(0.8,0.0,0.7)
         self.deb = rospy.Publisher("/deb_x",Float32,queue_size=1)
     def read_val(self,ros_data):
+        if(np.absolute(self.last_rec - time.time()) > 0.5):
+            self.reset_cmd()
         twist = ros_data.twist.twist
         self.currVal = twist.linear.x
         self.deb.publish(0)
