@@ -40,79 +40,48 @@ $ roslaunch drone_project Sequencer.launch
 ```
 You will get an interface, that will let you choose the mode you want, you can click on Doors, to find opened doors and pass through them, or Hallway to launch the autonomous navigation in the Hallways.
 
-## Some Useful Nodes
+## Customize this project
 
-### Activation and Deactivation
+### Nodes
 
-To activate or deactivate a node, you need to send an activation to the topic ```/activations```, The activation command is a ```<nodeName>_1``` to activate and ```<nodeName>_0``` to deactivate.
+Each node in this project have a unique name, used to activate it.
 
-Note that sending ```reset``` will deactivate all nodes.
+Some of the nodes also have the ability to send back confirmation after reaching their target .
 
-### Distance Estimation using camera
-This project contains a node able to estimate distances of moving objects using dense optical flow with the "Gunnar Farneback" algorithm.
+Like for example the node responsible of searching for openned doors, it will send a confirmation when a door is detected.
 
-```nodeName = checkDoors```
+### Create your sequence
 
-To use this module you can just run the ```testDenseOpticalFlow.py``` node :
+In this project, you can run your own sequence, the sequence is a python list that has a specific format.
 
-```
-$ rosrun drone_project testDenseOpticalFlow.py
-```
-And to view the histogram showing distances, run the rqt_image_view and choose the topic ```/image_graph```
-```
-$ rqt_image_view
-```
-Whenever an opened door is detected, this node will publish ```1```, to the topic ```/door_det ```.
+The Format is the following 
 
-### Vanishing point detection
-
-This project contains a node able to detect the vanishing point in a Hallway using DBSCAN clustering algorithm.
-
-```nodeName = detectVanish```
-
-To use this you need to run the ```image_proc.py``` node :
-
-```
-$ rosrun drone_project image_proc.py
+```python
+self.new_seq = ["mode_name",[["node_1","node_2"],["cond_1","cond_2"]],...]
 ```
 
-This node will publish the x of this point to the topic ```/centroids```.
+Where ```mode_name``` is the string that when we receive on the ```/mode``` topic , the sequence will run.
+Where ```node_1``` and ```node_2``` are the names of nodes that will be activated in the phase 1 of this sequence, and ```cond_1``` and ```cond_2``` are the names of nodes confirmations we are waiting for to continue to the next step.
 
-### Turn to a specified angle
+### Running the sequence 
 
-This project contains a node able to turn the drone to a specific angle.
+To run the sequence, you need to add 2 lines of code to the ```Sequencer.py``` class .
 
-```nodeName = turnAng```
-
-To use this you need to run the ```turnAng.py``` node :
-
+```python
+def enter_loop(self,ros_data):
+        ####Code
+        #if(self.mode == self.new_seq.get_mode()):
+                #self.new_seq.seq_fun()
 ```
-$ rosrun drone_project turnAng.py
-```
+Copy and paste these 2 lines, and after that Uncomment them and change the new_seq to the name of the sequence you've defined.
 
-If you run this node directly, the drone will move to 90 degrees.
+And now, whenever the mode is received in the mode topic, the sequence will run.
 
-If not, publish the desired angle in degrees to the topic ```/ang_in```.
+### Creating your own node
 
-### Reset Command 
-The command here uses  a PID controller, you need sometimes to reset this command, this project contains a node to do that.
+You can also create you own node in this project.
 
-``` nameNode = resetCmd ```
-
-To use it after activation:
-
-```
-$ rosrun drone_project reset_cmd_node.py
-```
-## Add your Code
-### Before you start
-This project is designed to be scalable so you can add your own nodes, but you need first to take a look at the official bebop autonomy documentation - [this link](https://bebop-autonomy.readthedocs.io/en/latest/) -
-
-### Activating the Node 
-Your nodes must inherit from the activation class and pass your nameNode.
-
-That's how to do this.  
-
+To do so , and if you want your node to be able to work properly in the sequencer, you have to inherit from the class ```NodeActivate```
 ```python
 from activation_class import NodeActivate
 class myNewNode(NodeActivate)
@@ -120,44 +89,90 @@ class myNewNode(NodeActivate)
         super(myNewNode,self).__init__("newNodeName")
         #Your Code
 ```
-Then to check activation you can do this using the varialbe ```self.node_active```:
+This means that your node has the name ```newNodeName``` and this is the name that will be used to activate it seperatly if you want (Check section)
+
+and to check if the node is activated or not, the variable ```self.activate``` is true when node activated and false otherwise.
+
+As mentionned above, the node may need to send confirmation after reaching the target, to do so, you have to inherit from the class ```returnResp```.
 
 ```python
-self.node_activation == 0 #The node is not active
-self.node_activation == 1 #The node is not active
+from activation_class import NodeActivate,returnResp
+class myNewNode(NodeActivate,returnResp)
+    def __init__(self):
+        super(myNewNode,self).__init__("newNodeName")
+```
+And to send the confirmation use the following function,
+```python
+self.send_conf()
 ```
 
-### Creating the sequence
+## Use project outside sequencer
 
-After creating your nodes you may need to define your sequence, You have to do this in the ```Sequencer.py``` file.
+This project can be used obviously outside the sequencer (You can define your own launch file and run the nodes you want).
 
-to do this you need to create an object of type Sequence in the : 
+But before doing that, there is few things you need to know.
+
+### Activation
+
+To activate a node , you have to publish a specific type of message called ```actMsg``` on the topic ```/activations```.
+
+This message contains 2 fields, a string which is the name of the node you want to activate, the second field is a boolean , which is the activation.
 
 ```python
-from projectTools import Sequence
-self.newSeq = Sequence("myNewSeq")
-'''
-Functions : 
-
-self.newSeq.get_mode() #returns the mode that launchs this Sequence
-self.newSeq.get_phase() #returns the phase in this sequence
-self.newSeq.set_phase(1) #Sets the phase to 1 in this case
-self.newSeq.set_published(False) #Sets the published to False in this case
-self.newSeq.get_publ() #returns the published varibale
-
-'''
-
+from drone_project.msg import actMsg
+import rospy
+pub = rospy.Publisher("/activations",actMsg,queue_size=1)
+msg = actMsg()
+msg.node_name = "nodeToAct" #Name of the node to activate
+msg.activate = True #False to deactivate
+pub.publish(msg)
 ```
-The Value passed to the Sequence Object is the mode that when received on the topic ```/mode``` , this sequence should run. 
-After that create a function that will be called when the mode is received , add it to the ```enter_loop``` function.
+### Getting Response
 
+As mentionned above also, some nodes send confirmation whenever they reach the target. A node doing this will publish its name to the topic ```/return_resp```.
+
+## Some Useful nodes
+
+### Distance Estimation using camera
+This project contains a node able to estimate distances of moving objects using dense optical flow with the "Gunnar Farneback" algorithm.
+
+```nodeName = checkDoors```
+
+To use this module you can just run the ```testDenseOpticalFlow.py``` node and activate it.
+
+To view the histogram showing distances, run the rqt_image_view and choose the topic ```/image_graph```
+```
+$ rqt_image_view
+```
+Whenever an opened door is detected, this node will publish to the ```/return_resp``` Topic.
+
+### Vanishing point detection
+
+This project contains a node able to detect the vanishing point in a Hallway using DBSCAN clustering algorithm.
+
+```nodeName = detectVanish```
+
+To use this you need to run the ```image_proc.py``` node and activate it.
+
+This node does not publish on ```/return_resp``` but it will publish the x of this point to the topic ```/centroids```.
+
+### Turn to a specified angle
+
+This project contains a node able to turn the drone to a specific angle.
+
+```nodeName = turnAng```
+
+To use this you need to import the ```TurnAngClass``` class and do like the following exemple :
 ```python
-def enter_loop(self,ros_data):
-    ########code##############
-    if(self.mode == self.newSeq.get_mode()):
-        self.new_seq_func()
+#!/usr/bin/env python
+from TurnAngClass import TurnDrone
+      
+def main(args):
+    rospy.init_node('TurnDrone', anonymous=True)
+    sc = TurnDrone(90) ## the angle you want .
+    #rospy.init_node('send_command', anonymous=True)
+    rospy.spin()
+if __name__ == '__main__':
+    main(sys.argv)
 ```
-
-And now it is up to you in your function to write the sequence you want . 
-
-For better results, see how the old sequences are made, like the doors sequence for example.
+Whenever the turn is done, this node will publish to the ```/return_resp``` Topic.

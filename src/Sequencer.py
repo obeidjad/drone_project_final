@@ -38,6 +38,8 @@ class Sequencer(object):
         
         if(self.mode == self.doors_seq.get_mode()):
             self.doors_seq.seq_fun()
+        #if(self.mode == self.new_seq.get_mode()):
+            #self.new_seq.seq_fun()
 def main(args):
     rospy.init_node('Sequencer', anonymous=True)
     sc = Sequencer()
