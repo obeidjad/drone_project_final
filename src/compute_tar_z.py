@@ -26,7 +26,7 @@ class ComputeZTar(NodeActivate):
         #self.act_publisher.publish(1)
     def read_centroid(self,ros_data):
         #read the centroid and send the data
-        if(self.node_active == 0):
+        if(self.node_active == False):
             return
         self.centroid = ros_data.data
         self.cmd = self.dc.computeCommand(self.centroid,self.TargCentroid)

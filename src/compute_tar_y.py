@@ -22,7 +22,7 @@ class ComputeYTar(NodeActivate):
         self.targY = 0
         #self.act_publisher.publish(0)
     def read_sDiffs(self,ros_data):
-        if(self.node_active == 0):
+        if(self.node_active == False):
             return
         #read the centroid and send the data
         self.targY = ros_data.data

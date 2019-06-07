@@ -6,9 +6,9 @@ from projectTools import GenTools,DroneCommand
 from Regulator import RegulatorClass
 from std_msgs.msg import Float32,Int32
 from nav_msgs.msg import Odometry
-from activation_class import NodeActivate
+from activation_class import NodeActivate,returnResp
 
-class TurnDrone(NodeActivate):
+class TurnDrone(NodeActivate,returnResp):
     def __init__(self,tar_in):
         super(TurnDrone,self).__init__("turnAng")
         #self.tar_sub = rospy.Subscriber("/ang_in_z",Float32,self.read_tar)
@@ -28,3 +28,5 @@ class TurnDrone(NodeActivate):
         cmd = self.dc.computeCommand(self.cur_ang,self.tar_ang)
         cmd = GenTools.setMax(cmd,0.3)
         self.cmd_pub_z.publish(cmd)
+        if(np.absolute(self.cur_ang - self.tar_ang) < 0.5):
+            self.send_conf()

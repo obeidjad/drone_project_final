@@ -21,7 +21,7 @@ class ComputeXTar(NodeActivate):
         self.cmd_publisher = rospy.Publisher("/vel_in_x",Float32,queue_size=1)
         self.targX = 0.2
     def sync_cmd(self,ros_data):
-        if(self.node_active == 0):
+        if(self.node_active == False):
             return
         self.cmd_publisher.publish(self.targX)
 def main(args):

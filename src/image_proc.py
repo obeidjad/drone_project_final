@@ -196,8 +196,8 @@ class image_convert(NodeActivate):
 
     def callback(self,ros_data):
         #msg = ""
-        #if(self.node_active == 0):
-        #    return
+        if(self.node_active == False):
+            return
         cv2_img = self.br.imgmsg_to_cv2(ros_data)
         #np_arr = np.fromstring(ros_data.data, np.uint8)
         #image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
