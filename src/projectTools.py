@@ -77,7 +77,7 @@ class Sequence:
         msg.activate = True
         self.actv_pub.publish(msg)
         for i in range(len(self.nodes_to_activate)):
-		    msg.node_name = self.nodes_to_activate[i]
+            msg.node_name = self.nodes_to_activate[i]
             msg.activate = True
             self.actv_pub.publish(msg)
         self.rate.sleep()
