@@ -57,7 +57,8 @@ In this project, you can run your own sequence, the sequence is a python list th
 The Format is the following 
 
 ```python
-self.new_seq = ["mode_name",[["node_1","node_2"],["cond_1","cond_2"]],...]
+new_seq_list = ["mode_name",[["node_1","node_2"],["cond_1","cond_2"]],...]
+self.new_seq = Sequencer(new_seq_list)
 ```
 
 Where ```mode_name``` is the string that when we receive on the ```/mode``` topic , the sequence will run.

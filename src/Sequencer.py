@@ -23,8 +23,10 @@ class Sequencer(object):
         """
         doors_seq_list = ["doors",[["curveMotion"],["curveMotion"]],[["checkDoors","turnAng"],["checkDoors"]]]
         init_seq_list = ["init",[ ["resetCmd"],[] ] ]
+        hallway_seq_list = ["hallways",[["detectVanish","computeTarX","computeTarY","computeTarZ"], [] ] ]
         self.doors_seq = Sequence(doors_seq_list)
         self.init_seq = Sequence(init_seq_list)
+        self.hallways_seq = Sequence(hallway_seq_list)
 
         self.rate = rospy.Rate(20) #10Hz
     def read_mode(self,ros_data):
@@ -40,6 +42,8 @@ class Sequencer(object):
             self.doors_seq.seq_fun()
         #if(self.mode == self.new_seq.get_mode()):
             #self.new_seq.seq_fun()
+        if(self.mode == self.hallways_seq.get_mode()):
+            self.hallways_seq.seq_fun()
 def main(args):
     rospy.init_node('Sequencer', anonymous=True)
     sc = Sequencer()
