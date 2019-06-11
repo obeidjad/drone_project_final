@@ -1,0 +1,21 @@
+<launch>
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+    <include file="$(find drone_project)/launch/VelLaunchUnity.launch"/>
+
+    <node pkg="drone_project" name="Sequencer" type="Sequencer.py">
+    </node>
+    <node pkg="drone_project" name="Main" type="Main.py">
+    </node>
+
+    <node pkg="drone_project" name="image_processor_drone_vs_stairs_round1" type="stairs_entrance_target.py">
+        <remap from="/drone_img" to="/drone/image_raw/compressed"/>
+    </node>
+    <node pkg="drone_project" name="drone_vs_stairs_round1" type="go_to_stairs.py">
+    </node>
+
+    <node pkg="drone_project" name="image_processor_drone_vs_stairs_round2" type="stairs_target_up.py">
+        <remap from="/drone_img" to="/drone/image_raw/compressed"/>
+    </node>
+    <node pkg="drone_project" name="drone_vs_stairs_round2" type="get_up_stairs.py">
+    </node>
+</launch>

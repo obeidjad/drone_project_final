@@ -1,0 +1,10 @@
+<launch>
+<node pkg="drone_project" name="sendCommand" type="send_cmd.py">
+	<remap from="/cmd_vel" to="/drone/cmd_vel"/>
+	<!-- PAS D'ODOMETRIE DANS LA SIMULATION: -->
+	<remap from="/vel_out_x" to="/vel_in_x"/>
+	<remap from="/vel_out_y" to="/vel_in_y"/>
+	<remap from="/vel_out_z" to="/vel_in_z"/>
+	<remap from="/vel_out_alt" to="/vel_in_alt"/>
+</node>
+</launch>

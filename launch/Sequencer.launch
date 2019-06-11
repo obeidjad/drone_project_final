@@ -17,4 +17,15 @@
 </node>
 <node pkg="drone_project" name="detectVanish" type="image_proc.py">
 </node>
+<node pkg="drone_project" name="image_processor_drone_vs_stairs_round1" type="stairs_entrance_target.py">
+    <remap from="/drone_img" to="/bebop/image_raw/compressed"/>
+</node>
+<node pkg="drone_project" name="drone_vs_stairs_round1" type="go_to_stairs.py">
+</node>
+
+<node pkg="drone_project" name="image_processor_drone_vs_stairs_round2" type="stairs_target_up.py">
+    <remap from="/drone_img" to="/bebop/image_raw/compressed"/>
+</node>
+<node pkg="drone_project" name="drone_vs_stairs_round2" type="get_up_stairs.py">
+</node>
 </launch>
