@@ -23,9 +23,8 @@ To do this you need to launch the VelLaunch.launch
 ```
 $ roslaunch drone_project VelLaunch.launch
 ```
-First start with sending a reset command to this modules by sending any integer to the topics ```/reset_cmd_x```,```/reset_cmd_y``` and ```/reset_cmd_z```.
- 
-And then publish to ```/vel_in_x``` , ``` /vel_in_y```  and ```/vel_in_z``` the velocities you want the drone to move with.
+
+And Now you can publish to ```/vel_in_x``` , ``` /vel_in_y``` to command linear x and y respectively,```/vel_in_z``` to command angular z,and finally ```/vel_in_alt``` to command the altitude.
 
 The frequency of sending data to the drone is equal to 5Hz.
 
@@ -46,7 +45,7 @@ You will get an interface, that will let you choose the mode you want, you can c
 
 Each node in this project have a unique name, used to activate it.
 
-Some of the nodes also have the ability to send back confirmation after reaching their target .
+They also have the ability to send back confirmation after reaching a target .
 
 Like for example the node responsible of searching for openned doors, it will send a confirmation when a door is detected.
 
