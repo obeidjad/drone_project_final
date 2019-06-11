@@ -78,6 +78,16 @@ Copy and paste these 2 lines, and after that Uncomment them and change the new_s
 
 And now, whenever the mode is received in the mode topic, the sequence will run.
 
+And to get sure your sequence will be reset after Init,
+```python
+def enter_loop(self,ros_data):
+        ####Code
+        if(self.mode == self.init_seq.get_mode()):
+                ####Code
+                #self.new_seq.reset()
+```
+Copy the ```self.new_seq.reset()``` line , paste it and uncomment int and replace the ```new_seq``` by the name of your sequence.
+
 ### Creating your own node
 
 You can also create you own node in this project.

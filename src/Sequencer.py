@@ -35,9 +35,9 @@ class Sequencer(object):
     def enter_loop(self,ros_data):
         if(self.mode == self.init_seq.get_mode()):
             self.doors_seq.reset_seq()
-            #self.hallway_seq.reset_seq()
+            self.hallways_seq.reset_seq()
+            #self.new_seq.reset_seq()
             self.init_seq.seq_func()
-        
         if(self.mode == self.doors_seq.get_mode()):
             self.doors_seq.seq_fun()
         #if(self.mode == self.new_seq.get_mode()):
