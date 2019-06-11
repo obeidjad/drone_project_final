@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-This node is the sequencer, This node will subscribe to the topic mode , and will choose the nodes to activate sequentially
+This node is the sequencer, This node will subscribe to the topic mode , 
+and will choose the nodes to activate sequentially
 """
 import rospy
 from std_msgs.msg import String,Int32,Float32
@@ -10,7 +11,8 @@ import sys
 
 class Sequencer(object):
     def __init__(self):
-        self.mode_sub = rospy.Subscriber("/mode",String,self.read_mode)        self.mode_pub = rospy.Publisher("/mode",String,queue_size=1)
+        self.mode_sub = rospy.Subscriber("/mode",String,self.read_mode)
+        self.mode_pub = rospy.Publisher("/mode",String,queue_size=1)
         self.actv_publisher = rospy.Publisher("/activations",actMsg,queue_size=1)
         self.loop_pub = rospy.Publisher("/loop_seq",Int32,queue_size=1)
         self.loop_sub = rospy.Subscriber("/loop_seq",Int32,self.enter_loop)
@@ -22,12 +24,9 @@ class Sequencer(object):
         self.doors_seq_list = ["doors",[["curveMotion"],["curveMotion"]],[["checkDoors","turnAng"],["checkDoors"]]]
         self.init_seq_list = ["init",[ ["resetCmd"],[] ] ]
         self.hallway_seq_list = ["hallway",[["detectVanish","computeTarX","computeTarY","computeTarZ"], [""] ] ]
-        self.stairs_seq_list = ["stairs",[["image_processor_drone_vs_stairs_round1","drone_vs_stairs_round1"],["drone_vs_stairs_round1"]],[["image_processor_drone_vs_stairs_round2","drone_vs_stairs_round2"],[""]]]
         self.doors_seq = Sequence(self.doors_seq_list)
         self.init_seq = Sequence(self.init_seq_list)
         self.hallways_seq = Sequence(self.hallway_seq_list)
-        self.stairs_seq = Sequence(self.stairs_seq_list)
-        
         #self.new_seq_list = []
         #self.new_seq = Sequence(self.new_seq_list)
 
@@ -41,7 +40,6 @@ class Sequencer(object):
             self.actv_publisher.publish(msg)
             self.doors_seq = Sequence(self.doors_seq_list)
             self.hallways_seq = Sequence(self.hallway_seq_list)
-            self.stairs_seq = Sequence(self.stairs_seq_list)
             #self.new_seq = Sequence(self.new_seq_list)
         else:
             self.loop_pub.publish(3)
@@ -55,8 +53,6 @@ class Sequencer(object):
             #self.new_seq.seq_fun()
         if(self.mode == self.hallways_seq.get_mode()):
             self.hallways_seq.seq_fun()
-        if(self.mode == self.stairs_seq.get_mode()):
-            self.stairs_seq.seq_fun()
 def main(args):
     rospy.init_node('Sequencer', anonymous=True)
     sc = Sequencer()
