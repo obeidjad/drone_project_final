@@ -23,7 +23,7 @@ class Sequencer(object):
         """
         self.doors_seq_list = ["doors",[["curveMotion"],["curveMotion"]],[["checkDoors","turnAng"],["checkDoors"]]]
         self.init_seq_list = ["init",[ ["resetCmd"],[] ] ]
-        self.hallway_seq_list = ["hallways",[["detectVanish","computeTarX","computeTarY","computeTarZ"], [] ] ]
+        self.hallway_seq_list = ["hallway",[["detectVanish","computeTarX","computeTarY","computeTarZ"], [""] ] ]
         self.doors_seq = Sequence(self.doors_seq_list)
         self.init_seq = Sequence(self.init_seq_list)
         self.hallways_seq = Sequence(self.hallway_seq_list)
