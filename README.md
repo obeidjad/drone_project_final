@@ -109,19 +109,12 @@ class myNewNode(NodeActivate)
         super(myNewNode,self).__init__("newNodeName")
         #Your Code
 ```
-This means that your node has the name ```newNodeName``` and this is the name that will be used to activate it seperatly if you want (Check section)
+This means that your node has the name ```newNodeName``` and this is the name that will be used to activate it seperatly if you want(Later).
 
 and to check if the node is activated or not, the variable ```self.activate``` is true when node activated and false otherwise.
 
-As mentionned above, the node may need to send confirmation after reaching the target, to do so, you have to inherit from the class ```returnResp```.
+As mentionned above, the nodes may need to send confirmation after reaching the target, to do so, use the function ```send_conf()```.
 
-```python
-from activation_class import NodeActivate,returnResp
-class myNewNode(NodeActivate,returnResp)
-    def __init__(self):
-        super(myNewNode,self).__init__("newNodeName")
-```
-And to send the confirmation use the following function,
 ```python
 self.send_conf()
 ```
