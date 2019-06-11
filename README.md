@@ -36,12 +36,19 @@ The frequency of sending data to the drone is equal to 5Hz.
 The ``` move_tester.py ``` file is an example of moving with a constant velocity.
 
 ## Using The Interface
+
+### Doors and Hallways
+
 To run the indoors navigation modules , you just need to launch the file  ```Sequencer.launch```.
 
 ```
 $ roslaunch drone_project Sequencer.launch
 ```
-You will get an interface, that will let you choose the mode you want, you can click on Doors, to find opened doors and pass through them, Hallway to launch the autonomous navigation in the Hallways. Be careful, the stairs module is still quite unstable in real-life tests because of the unstability of the odometry measures in stairs but you can test its logic on the unity simulation scene.
+You will get an interface, that will let you choose the mode you want, you can click on Doors, to find opened doors and pass through them, Hallway to launch the autonomous navigation in the Hallways. 
+
+### Stairs 
+
+Be careful, the stairs module is still quite unstable in real-life tests because of the unstability of the odometry measures in stairs but you can test its logic on the unity simulation scene.
 
 to test it, first download the unity simulation scene ```unityProjectStairs.zip```,and unzip it.
 
