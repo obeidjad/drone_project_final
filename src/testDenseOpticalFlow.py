@@ -46,7 +46,7 @@ class EnterDoors(NodeActivate,returnResp):
         self.y_vel = 0
         self.act_time = -1
     def update_vel(self,ros_data):
-        if(self.node_active == 0):
+        if(self.node_active == False):
             self.act_time = time.time()
             return
         twist = ros_data.twist.twist

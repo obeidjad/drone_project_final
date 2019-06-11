@@ -64,6 +64,9 @@ self.new_seq = Sequencer(new_seq_list)
 Where ```mode_name``` is the string that when we receive on the ```/mode``` topic , the sequence will run.
 Where ```node_1``` and ```node_2``` are the names of nodes that will be activated in the phase 1 of this sequence, and ```cond_1``` and ```cond_2``` are the names of nodes confirmations we are waiting for to continue to the next step.
 
+### NB: 
+Having ```[]``` as condition means always True, and having ```[""]``` means always False. 
+
 ### Running the sequence 
 
 To run the sequence, you need to add 2 lines of code to the ```Sequencer.py``` class .

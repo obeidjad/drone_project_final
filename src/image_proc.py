@@ -29,7 +29,7 @@ class image_convert(NodeActivate):
         self.pubDiff = rospy.Publisher('/sDiffs',Float32,queue_size=1)
         self.pubForBag = rospy.Publisher('/imgForBag/front/compressed', CompressedImage, queue_size=1)
         #self.subscriber = rospy.Subscriber("/bebop/image_raw",Image, self.callback)
-        self.subscriber = rospy.Subscriber("/bebop/image_raw",Image, self.callback)
+        self.subscriber = rospy.Subscriber("/bebop/image_raw/compressed",CompressedImage, self.callback)
         self.lsd = cv2.createLineSegmentDetector(0)
         self.real_centr = np.array([160,120])
         self.old_centr = np.array([160,120])
@@ -198,7 +198,7 @@ class image_convert(NodeActivate):
         #msg = ""
         if(self.node_active == False):
             return
-        cv2_img = self.br.imgmsg_to_cv2(ros_data)
+        cv2_img = self.br.compressed_imgmsg_to_cv2(ros_data)
         #np_arr = np.fromstring(ros_data.data, np.uint8)
         #image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         image,cx,sDiff = self.getVanishingPoint(cv2_img)
