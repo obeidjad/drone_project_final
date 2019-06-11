@@ -70,9 +70,9 @@ To run the sequence, you need to add 2 lines of code to the ```Sequencer.py``` c
 
 ```python
 def enter_loop(self,ros_data):
-        ####Code
-        #if(self.mode == self.new_seq.get_mode()):
-                #self.new_seq.seq_fun()
+    ####Code
+    #if(self.mode == self.new_seq.get_mode()):
+        #self.new_seq.seq_fun()
 ```
 Copy and paste these 2 lines, and after that Uncomment them and change the new_seq to the name of the sequence you've defined.
 
@@ -80,13 +80,20 @@ And now, whenever the mode is received in the mode topic, the sequence will run.
 
 And to get sure your sequence will be reset after Init,
 ```python
-def enter_loop(self,ros_data):
-        ####Code
-        if(self.mode == self.init_seq.get_mode()):
-                ####Code
-                #self.new_seq.reset()
+def read_mode(self,ros_data):
+    self.mode = ros_data.data
+    if(self.mode == "init"):
+        msg = actMsg()
+        msg.node_name = "reset"
+        msg.activate = True
+        self.actv_publisher.publish(msg)
+        self.doors_seq = Sequence(self.doors_seq_list)
+        self.hallways_seq = Sequence(self.hallway_seq_list)
+        #self.new_seq = Sequence(self.new_seq_list)
+    else:
+        self.loop_pub.publish(3)
 ```
-Copy the ```self.new_seq.reset()``` line , paste it and uncomment int and replace the ```new_seq``` by the name of your sequence.
+Copy the ```self.new_seq = Sequence(self.new_seq_list)``` line , paste it and uncomment int and replace the ```new_seq``` by the name of your sequence.
 
 ### Creating your own node
 

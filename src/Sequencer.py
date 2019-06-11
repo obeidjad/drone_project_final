@@ -27,6 +27,8 @@ class Sequencer(object):
         self.doors_seq = Sequence(self.doors_seq_list)
         self.init_seq = Sequence(self.init_seq_list)
         self.hallways_seq = Sequence(self.hallway_seq_list)
+        #self.new_seq_list = []
+        #self.new_seq = Sequence(self.new_seq_list)
 
         self.rate = rospy.Rate(20) #10Hz
     def read_mode(self,ros_data):
@@ -38,6 +40,7 @@ class Sequencer(object):
             self.actv_publisher.publish(msg)
             self.doors_seq = Sequence(self.doors_seq_list)
             self.hallways_seq = Sequence(self.hallway_seq_list)
+            #self.new_seq = Sequence(self.new_seq_list)
         else:
             self.loop_pub.publish(3)
     def enter_loop(self,ros_data):
