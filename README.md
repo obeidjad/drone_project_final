@@ -5,8 +5,9 @@ This ROS package is for a semi-autonomous drone pilot for the Parrot Bebop 2 usi
 ## Quick Intro
 
 This project has many parts,The first one is moving the drone at a constant velocity.
-The Second part is built on the first one , is used move the drone inside a hallway.
-The third part, is used to detect openned doors.
+The Second part is built on the first one , is used to perform indoors navigation(hallways, stairs and doors crossing).
+
+For more details, check the documentation file ```repport.pdf```(French Documentation).
 
 ## Use This Package
 First Clone this repo in your catkin workspace
@@ -17,14 +18,17 @@ Build your workspace
 ```
 $ catkin build
 ```
-## Moving Drone
+## Drone Control
+
+In this project we've built a module, that allows you to command the drone velocity.
+
 To do this you need to launch the VelLaunch.launch 
 
 ```
 $ roslaunch drone_project VelLaunch.launch
 ```
 
-And Now you can publish to ```/vel_in_x``` , ``` /vel_in_y``` to command linear x and y respectively,```/vel_in_z``` to command angular z,and finally ```/vel_in_alt``` to command the altitude.
+And now you can publish to ```/vel_in_x``` , ``` /vel_in_y``` to command linear x and y respectively,```/vel_in_z``` to command angular z,and finally ```/vel_in_alt``` to command the altitude.
 
 The frequency of sending data to the drone is equal to 5Hz.
 
@@ -32,12 +36,21 @@ The frequency of sending data to the drone is equal to 5Hz.
 The ``` move_tester.py ``` file is an example of moving with a constant velocity.
 
 ## Using The Interface
-To run the other parts of the project, you need to launch the file  ```Sequencer.launch```.
+To run the indoors navigation modules , you just need to launch the file  ```Sequencer.launch```.
 
 ```
 $ roslaunch drone_project Sequencer.launch
 ```
-You will get an interface, that will let you choose the mode you want, you can click on Doors, to find opened doors and pass through them, or Hallway to launch the autonomous navigation in the Hallways.
+You will get an interface, that will let you choose the mode you want, you can click on Doors, to find opened doors and pass through them, Hallway to launch the autonomous navigation in the Hallways. Be careful, the stairs module is still quite unstable in real-life tests because of the unstability of the odometry measures in stairs but you can test its logic on the unity simulation scene.
+
+to test it, first download the unity simulation scene ```unityProjectStairs.zip```,and unzip it.
+
+After loading the scene,
+```
+$ roslaunch drone_project SequencerUnity.launch
+```
+then click ```play``` to run he simulation and select ```stairs``` on the interface.
+
 
 ## Customize this project
 
