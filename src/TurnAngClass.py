@@ -1,6 +1,6 @@
 import numpy as np
 import rospy
-import sys
+
 import time
 from projectTools import GenTools,DroneCommand
 from Regulator import RegulatorClass
@@ -8,7 +8,7 @@ from std_msgs.msg import Float32,Int32
 from nav_msgs.msg import Odometry
 from activation_class import NodeActivate,returnResp
 
-class TurnDrone(NodeActivate,returnResp):
+class TurnDrone(NodeActivate):
     def __init__(self,tar_in):
         super(TurnDrone,self).__init__("turnAng")
         #self.tar_sub = rospy.Subscriber("/ang_in_z",Float32,self.read_tar)

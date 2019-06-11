@@ -33,8 +33,10 @@ class RegulatorClass(object):
         #self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
         #self.cmd_publisher.publish(self.cmd)
         print "cmd sent"
-    def reset_cmd(self,ros_data):
+    def myreset_cmd(self):
         self.dc.cmd = 0
         self.dc.TotErr = 0
         self.dc.oldErr = 0
         self.reset_ack = 1
+    def reset_cmd(self,ros_data):
+        pass

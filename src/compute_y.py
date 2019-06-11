@@ -24,7 +24,7 @@ class YCommand(RegulatorClass):
         #if(self.activation == 0):
         #    return
         if(np.absolute(self.last_rec - time.time()) > 0.5):
-            self.reset_cmd()
+            self.myreset_cmd()
         twist = ros_data.twist.twist
         self.currVal = twist.linear.y
         self.targVal = GenTools.setMax(self.targVal,0.3)

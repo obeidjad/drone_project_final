@@ -37,10 +37,11 @@ class Sequence:
         self.nodes_to_activate = self._seq[self._phase][0]
         self.conds_to_wait = self._seq[self._phase][1]
         self._verf_conds = [False]*len(self.conds_to_wait)
-        self.actv_pub = rospy.Publisher("/activations",actMsg,queue_size=1)
+        self.actv_pub = rospy.Publisher("/activations",actMsg,queue_size=10)
         self.resp_sub = rospy.Subscriber("/return_resp",String,self.updateConds)
-        self.loop_pub = rospy.Publisher("/loop_sep",Int32,queue_size=1)
+        self.loop_pub = rospy.Publisher("/loop_seq",Int32,queue_size=1)
         self.mode_pub = rospy.Publisher("/mode",String,queue_size=1)
+        self.deb_pub3 = rospy.Publisher("/deb_pub3",String,queue_size=1)
         self.rate = rospy.Rate(20) #20Hz
     def reset_seq(self):
         self._phase = 0
@@ -52,8 +53,10 @@ class Sequence:
             self._verf_conds[ind] = True
 
     def seq_fun(self):
-        self.nodes_to_activate = self._seq[self._phase][0]
-        self.conds_to_wait = self._seq[self._phase][1]
+        initPubl = False
+        if(self._phase < self._phase_nb):
+            self.nodes_to_activate = self._seq[self._phase][0]
+            self.conds_to_wait = self._seq[self._phase][1]
         #First we get the nodes we want
         if(self._published == False):
             self.send_activations()
@@ -64,12 +67,16 @@ class Sequence:
                 self._verf_conds = [False]*len(self._seq[self._phase][1])
                 self.nodes_to_activate = self._seq[self._phase][0]
                 self.conds_to_wait = self._seq[self._phase][1]
-                self.loop_pub.publish(1)
             else:
                 #The sequence is over here
-                self.mode_pub.publish("init")
+                initPubl = True
+                if(self._mode != "init"):
+                    self.mode_pub.publish("init")
+        if(initPubl == False and self._mode != "init"):
+            self.loop_pub.publish(1)
+        self.rate.sleep()
 
-    def send_activations():
+    def send_activations(self):
         #reset message and send some
         self._published = True
         msg = actMsg()
@@ -81,7 +88,9 @@ class Sequence:
             msg.activate = True
             self.actv_pub.publish(msg)
         self.rate.sleep()
-    def wait_conds():
+    def wait_conds(self):
+        ret_val = all(item == True for item in self._verf_conds)
+        self.deb_pub3.publish(str(ret_val))
         return all(item == True for item in self._verf_conds)
     def get_mode(self):
         return self._mode

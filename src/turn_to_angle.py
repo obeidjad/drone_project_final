@@ -14,7 +14,7 @@ from nav_msgs.msg import Odometry
 import time
 from activation_class import NodeActivate,returnResp
 
-class TurnDrone(NodeActivate,returnResp):
+class TurnDrone(NodeActivate):
     def __init__(self):
         super(TurnDrone,self).__init__("curveMotion")
         self.tar_sub = rospy.Subscriber("/ang_in_z",Float32,self.read_tar)
@@ -60,9 +60,10 @@ class TurnDrone(NodeActivate,returnResp):
                 #Here we can consider that we have finished the turn
                 #self.done_pub.publish(1)
                 self.send_conf()
+                #pass
         
 def main(args):
-    rospy.init_node('TurnDrone', anonymous=True)
+    rospy.init_node('TurnDrone3', anonymous=True)
     sc = TurnDrone()
     #rospy.init_node('send_command', anonymous=True)
     rospy.spin()

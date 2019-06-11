@@ -18,7 +18,7 @@ class XCommand(RegulatorClass):
         self.deb = rospy.Publisher("/deb_x",Float32,queue_size=1)
     def read_val(self,ros_data):
         if(np.absolute(self.last_rec - time.time()) > 0.5):
-            self.reset_cmd()
+            self.myreset_cmd()
         twist = ros_data.twist.twist
         self.currVal = twist.linear.x
         self.deb.publish(0)

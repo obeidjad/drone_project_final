@@ -23,7 +23,7 @@ class ZCommand(RegulatorClass):
         self.data_rec = 1
     def read_val(self,ros_data):
         if(np.absolute(self.last_rec - time.time()) > 0.5):
-            self.reset_cmd()
+            self.myreset_cmd()
         #self.cmd = self.dc.computeCommand(self.currVal,self.targVal)
         if(self.data_rec == 1):
             self.cmd_publisher.publish(self.cmd)

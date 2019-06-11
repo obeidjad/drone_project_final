@@ -54,9 +54,9 @@ class EnterDoors(NodeActivate,returnResp):
         curr_pose = ros_data.pose.pose
         cur_ang_quat = curr_pose.orientation.z
         if(cur_ang_quat > 0):
-            self.y_vel = -0.3
+            self.y_vel = -0.4
         else:
-            self.y_vel = 0.3
+            self.y_vel = 0.4
         
     def transform_image(self,ros_data):
         if(self.node_active == False):
@@ -95,7 +95,7 @@ class EnterDoors(NodeActivate,returnResp):
                 #var_y = np.var(tmp_pixels_y,axis = 1)
                 m_var_x = np.mean(var_x)
                 #m_var_y = np.mean(var_y)
-                if(m_var_x > 500 and abs(time.time() - self.act_time) > 1):
+                if(m_var_x > 500 and abs(time.time() - self.act_time) > 3):
                     #print "Door detected between "+str(left) + " and "+str(right)
                     cv2.circle(self.plot_image,(int((left+right)/2),100),3,(0,0,0),-1)
                     if(left < 20 and right > 300):

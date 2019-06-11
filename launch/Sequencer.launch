@@ -9,8 +9,6 @@
 </node>
 <node pkg="drone_project" name="turnAng" type="turn_ang.py">
 </node>
-<node pkg="drone_project" name="resetCmd" type="reset_cmd_node.py">
-</node>
 <node pkg="drone_project" name="computeTarX" type="compute_tar_x.py">
 </node>
 <node pkg="drone_project" name="computeTarY" type="compute_tar_y.py">

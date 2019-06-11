@@ -25,7 +25,7 @@ class resetCmd(NodeActivate):
             self.pubres2.publish(1)
             self.pubres3.publish(1)
             self.rate.sleep()
-        self.node_active = 0
+        self.node_active = False
 def main(args):
     rospy.init_node('resetCmd', anonymous=True)
     sc = resetCmd()
