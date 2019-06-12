@@ -210,7 +210,6 @@ class image_convert(NodeActivate):
             cmprsmsg = self.br.cv2_to_compressed_imgmsg(image)
             self.pubForBag.publish(cmprsmsg)
         cv2.waitKey(10)
-
 def main(args):
     rospy.init_node('image_feature', anonymous=True)
     ic = image_convert()
