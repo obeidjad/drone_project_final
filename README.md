@@ -32,6 +32,14 @@ And now you can publish to ```/vel_in_x``` , ``` /vel_in_y``` to command linear 
 
 The frequency of sending data to the drone is equal to 5Hz.
 
+### PID parameters
+
+To change PID parameters, open the corresponding ```compute``` file, like ```compute_x.py``` for the X axis for example,
+
+```python
+super(XCommand,self).__init__(P,I,D)
+```
+
 ### Example Moving at constant Velocity:
 The ``` move_tester.py ``` file is an example of moving with a constant velocity.
 
