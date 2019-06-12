@@ -112,12 +112,8 @@ class ImageProcessorStairsUp(NodeActivate):
                 stairs_lines = clusterbis[i_max]
 
                 #LOWER STAIRS
-                length = len(stairs_lines)
                 lowest_st_nb = 4
-                if length > lowest_st_nb:
-                  lowest_stairs_lines = stairs_lines[length-lowest_st_nb:length,:]
-                else:
-                  lowest_stairs_lines = stairs_lines
+                lowest_stairs_lines = tools.findLowerStairs(stairs_lines, lowest_st_nb)
                 a_st,b_st = np.mean(lowest_stairs_lines[:,5]),np.mean(lowest_stairs_lines[:,6])
                 stairs_angle = np.arctan2(b_st,a_st)
                 low_x_moy, low_y_moy = tools.findMiddle(lowest_stairs_lines)

@@ -298,6 +298,14 @@ def findLowestStair(linesArray):
     y = [linesArray[:,1],linesArray[:,3]]
     return np.max(y)
 
+def findLowerStairs(stairsLinesArray,lowest_st_nb):
+    length = len(stairsLinesArray)
+    if length > lowest_st_nb:
+        lowest_stairs_lines = stairs_lines[length-lowest_st_nb:length,:]
+    else:
+        lowest_stairs_lines = stairs_lines
+    return lowest_stairs_lines
+
 # unused exceptions
 class NoStairs(Exception):
     def __init__(self):
